@@ -2,7 +2,7 @@
 
 echo "Removing old files (if they exist)..."
 
-rm *.java *.interp *.tokens 2> /dev/null
+rm -rf .antlr *.java *.interp *.tokens *.class 2> /dev/null
 
 echo "Generating .java files..."
 
