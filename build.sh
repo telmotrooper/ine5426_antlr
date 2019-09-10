@@ -8,14 +8,14 @@ rm -rf .antlr *.java *.interp *.tokens *.class 2> /dev/null
 
 echo "Generating .java files..."
 
-antlr4 Expr.g4
+java -jar $ANTLR Expr.g4
 
 echo "Generating .class files..."
 
-javac Expr*.java
-# javac -cp $ANTLR Expr*.java
+# javac Expr*.java
+javac -cp .:$ANTLR Expr*.java
 
 echo "Write your expression and press Ctrl+D to see the results."
 
-grun Expr prog -gui
-# java -cp $ANTLR org.antlr.v4.gui.TestRig Expr prog -gui
+# grun
+java -cp .:$ANTLR org.antlr.v4.gui.TestRig Expr prog -gui
