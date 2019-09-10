@@ -2,7 +2,7 @@
 
 echo "Removing old files (if they exist)..."
 
-rm *.java *.interp *.tokens
+rm *.java *.interp *.tokens 2> /dev/null
 
 echo "Building application..."
 
