@@ -17,7 +17,6 @@ $ANTLR Expr.g4
 
 echo "Generating .class files..."
 
-# javac Expr*.java
 javac -cp .:$ANTLR_PATH Expr*.java
 
 echo "Write your expression, press ENTER and then Ctrl+D to see the results."
