@@ -1,0 +1,69 @@
+Questão 2 da AS do trabalho:
+CCC-2019-2 possui recursão à esquerda? Justifique detalhadamente sua resposta. Se ela
+tiver recursão à esquerda, então remova tal recursão.
+
+Para que uma gramática tenha recursão à esquerda, ela tem que ter produções do tipo A -> Aa, onde a é um terminal. Para eliminar a recursão à esquerdam é necessário que a produção com recursão à esquerda seja substituída por produções que não sejam recursivas à esquerda, por exemplo, na produção A -> Aa | b, pode ser substituída por:
+	A  -> bA'
+	A' -> aA' | &
+
+
+PROGRAM -> STATEMENT1 -> STATEMENT -> VARDECL -> TYPE -> int | float | string
+não há recursão à esquerda.
+
+PROGRAM -> STATEMENT1 -> STATEMENT -> ATRIBSTAT -> LVALUE -> ident
+não há recursão à esquerda.
+
+PROGRAM -> STATEMENT1 -> STATEMENT -> PRINTSTAT -> print
+não há recursão à esquerda.
+
+PROGRAM -> STATEMENT1 -> STATEMENT -> READSTAT -> read
+não há recursão à esquerda.
+
+PROGRAM -> STATEMENT1 -> STATEMENT -> RETURNSTAT -> return
+não há recursão à esquerda
+
+PROGRAM -> STATEMENT1 -> STATEMENT -> IFSTAT -> if
+não há recursão à esquerda.
+
+PROGRAM -> STATEMENT1 -> STATEMENT -> FORSTAT -> for
+não há recursão à esquerda.
+
+PROGRAM -> STATEMENT1 -> STATEMENT -> { | break | ;
+não há recursão à esquerda.
+
+Portanto PROGRAM, STATEMENT e STATEMENT1 não possuem recursão à esquerda.
+
+como já foi constatado anteriormente: VARDECL, ATRIBSTAT, PRINTSTAT, READSTAT, RETURNSTAT, IFSTAT, FORSTAT, LVALUE e TYPE acabam derivando um terminal à esquerda, portanto, já foi verificado que essas produções não são recursivas à esquerda.
+
+BRACKETS, ELSESTAT, ARITHSIGNAL1, ARITHSIGNAL2, SIGNAL, ALLOCEXPRESSION, BRACKETEXPRESS derivam terminais à esquerda.
+
+ATRIBEXPRESS -> EXPRESSION -> NUMEXPRESSION -> TERM -> UNARYEXPR -> ARITHSIGNAL1' -> ARITHSIGNAL1 -> + | -
+ou 
+ATRIBEXPRESS -> EXPRESSION -> NUMEXPRESSION -> TERM -> UNARYEXPR -> FACTOR -> int_constant | float_constant | string | constant | (
+ou
+ATRIBEXPRESS -> EXPRESSION -> NUMEXPRESSION -> TERM -> UNARYEXPR -> FACTOR -> LVALUE -> ident
+não há recursão à esquerda.
+
+ATRIBEXPRESS -> ALLOCEXPRESSION -> new
+não há recursão à esquerda.
+
+como visto antes, na derivação de ATRIBEXPRESS, EXPRESSION, NUMEXPRESSION, TERM, UNARYEXPR não possui recursão à esquerda por nenhum de seus 3 caminhos de derivação possíveis. FACTOR também não possui recursão à esquerda.
+
+EXPRESSION1 -> SIGNAL -> < | > | <= | >= | == | !=
+não há recursão à esquerda.
+
+ARITHMETIC1 -> ARITHSIGNAL1 -> + | -
+não há recursão à esquerda.
+
+ARITHMETIC2 -> ARITHSIGNAL2 -> * | \ | %
+não há recursão à esquerda.
+
+STATELIST -> STATEMENT, como statement já foi verificado, e não há recursão à esquerda em STATEMENT, então também não há em STATELIST.
+
+STATELIST1 -> STATELIST -> STATEMENT, não há recursão à esquerda pelo mesmo motivo citado acima.
+
+
+
+
+
+
