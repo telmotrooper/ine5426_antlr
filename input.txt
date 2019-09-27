@@ -11,7 +11,7 @@
 	    x = x + 0.001;
 	    z = x;
 	    if (z != x){
-	      print "Erro numérico na atribuição de números na notação ponto flutuante!";
+	      print "Erro numerico na atribuicao de numeros na notacao ponto flutuante!";
 	      break;
 	    }
 	  }

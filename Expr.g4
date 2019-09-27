@@ -1,7 +1,5 @@
 grammar Expr;		
 
-// sintático
-
 program           : statement1;
 
 statement1        : statement 
@@ -99,7 +97,6 @@ factor            : INT_CONSTANT
 
 lvalue            : IDENT bracketexpress;
 
-// lexico
 
 SEMICOLON       : ';';
 OPENBRACE       : '{';
@@ -134,7 +131,7 @@ MULT            : '*';
 DIV             : '\\';
 MODULO          : '%';
 FLOAT_CONSTANT  : '0.001';
-STRING_CONSTANT : [a-zA-Z0-9]*;
+STRING_CONSTANT : ["a-zA-Z0-9]+;
 NULL            : 'null';
 
 WHITESPACE   : (' '|'\t'|'\n'|'\r')+ -> skip ;
