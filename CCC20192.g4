@@ -1,4 +1,4 @@
-grammar Expr;		
+grammar CCC20192;
 
 // sintático
 
@@ -133,8 +133,11 @@ MINUS           : '-';
 MULT            : '*';
 DIV             : '\\';
 MODULO          : '%';
-FLOAT_CONSTANT  : '0.001';
+FLOAT_CONSTANT  : [0-9+.0.9+];
 STRING_CONSTANT : [a-zA-Z0-9]*;
 NULL            : 'null';
 
 WHITESPACE   : (' '|'\t'|'\n'|'\r')+ -> skip ;
+
+
+

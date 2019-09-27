@@ -16,6 +16,8 @@ echo "Generating Lexer and Parser..."
 
 $ANTLR -Dlanguage=Python3 Expr.g4
 
+#$ANTLR  -Dlanguage=Python3 CCC20192.g4
+
 # echo "Generating .class files..."
 
 # javac -cp .:$ANTLR_PATH Expr*.java
