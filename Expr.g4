@@ -10,8 +10,8 @@ statement         : vardecl SEMICOLON
                   | printstat SEMICOLON
                   | readstat SEMICOLON
                   | returnstat SEMICOLON
-                  | ifstat SEMICOLON
-                  | forstat SEMICOLON
+                  | ifstat 
+                  | forstat 
                   | OPENBRACE statelist CLOSEBRACE
                   | BREAK SEMICOLON
                   | SEMICOLON;
@@ -52,7 +52,8 @@ statelist1        : statelist
 allocexpression   : NEW vartype OPENBRACKET expression CLOSEBRACKET bracketexpress;
 
 bracketexpress    : OPENBRACKET expression CLOSEBRACKET
-                  | OPENBRACKET expression CLOSEBRACKET bracketexpress;
+                  | OPENBRACKET expression CLOSEBRACKET bracketexpress
+                  | ;
 
 expression        : numexpression expression1;
 
@@ -69,7 +70,8 @@ signal            : LESS
 numexpression     : term arithmetic1;
 
 arithmetic1       : arithsignal1 term
-                  | arithsignal1 term arithmetic1;
+                  | arithsignal1 term arithmetic1
+                  | ;
 
 arithsignal1      : PLUS
                   | MINUS;
@@ -77,7 +79,8 @@ arithsignal1      : PLUS
 term              : unaryexpr arithmetic2;
 
 arithmetic2       : arithsignal2 unaryexpr
-                  | arithsignal2 unaryexpr arithmetic2;
+                  | arithsignal2 unaryexpr arithmetic2
+                  | ;
 
 arithsignal2      : MULT
                   | DIV
@@ -102,7 +105,6 @@ SEMICOLON       : ';';
 OPENBRACE       : '{';
 CLOSEBRACE      : '}';
 BREAK           : 'break';
-IDENT           : [a-zA-Z0-9]+;
 INT             : 'int';
 FLOAT           : 'float';
 STRING          : 'string';
@@ -130,8 +132,9 @@ MINUS           : '-';
 MULT            : '*';
 DIV             : '\\';
 MODULO          : '%';
-FLOAT_CONSTANT  : '0.001';
-STRING_CONSTANT : ["a-zA-Z0-9]+;
 NULL            : 'null';
+IDENT           : [a-zA-Z0-9]+;
+STRING_CONSTANT : ["a-zA-Z0-9!?_]+;
+FLOAT_CONSTANT  : ('0'..'9')+ '.' ('0'..'9')+;
 
 WHITESPACE   : (' '|'\t'|'\n'|'\r')+ -> skip ;
