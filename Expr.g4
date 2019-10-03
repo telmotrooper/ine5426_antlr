@@ -25,7 +25,7 @@ vartype           : INT
 brackets          : OPENBRACKET INT_CONSTANT CLOSEBRACKET brackets1
                   | ;
 
-brackets'         : brackets
+brackets1         : brackets
                   | ;
 
 atribstat         : lvalue ATRIB atribexpress;
