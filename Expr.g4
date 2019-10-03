@@ -1,17 +1,17 @@
-grammar Expr;		
+grammar Expr;
 
 program           : statement1;
 
-statement1        : statement 
+statement1        : statement
                   | ;
 
-statement         : vardecl SEMICOLON 
+statement         : vardecl SEMICOLON
                   | atribstat SEMICOLON
                   | printstat SEMICOLON
                   | readstat SEMICOLON
                   | returnstat SEMICOLON
-                  | ifstat 
-                  | forstat 
+                  | ifstat
+                  | forstat
                   | OPENBRACE statelist CLOSEBRACE
                   | BREAK SEMICOLON
                   | SEMICOLON;
@@ -22,8 +22,10 @@ vartype           : INT
                   | FLOAT
                   | STRING;
 
-brackets          : OPENBRACKET INT_CONSTANT CLOSEBRACKET
-                  | OPENBRACKET INT_CONSTANT CLOSEBRACKET brackets
+brackets          : OPENBRACKET INT_CONSTANT CLOSEBRACKET brackets1
+                  | ;
+
+brackets'         : brackets
                   | ;
 
 atribstat         : lvalue ATRIB atribexpress;
@@ -51,8 +53,10 @@ statelist1        : statelist
 
 allocexpression   : NEW vartype OPENBRACKET expression CLOSEBRACKET bracketexpress;
 
-bracketexpress    : OPENBRACKET expression CLOSEBRACKET
-                  | OPENBRACKET expression CLOSEBRACKET bracketexpress
+bracketexpress    : OPENBRACKET expression CLOSEBRACKET bracketexpress1
+                  | ;
+
+bracketexpress1   : bracketexpress
                   | ;
 
 expression        : numexpression expression1;
@@ -60,7 +64,7 @@ expression        : numexpression expression1;
 expression1       : signal numexpression
                   | ;
 
-signal            : LESS 
+signal            : LESS
                   | GREATER
                   | LESS_EQ
                   | GREATER_EQ
@@ -69,8 +73,10 @@ signal            : LESS
 
 numexpression     : term arithmetic1;
 
-arithmetic1       : arithsignal1 term
-                  | arithsignal1 term arithmetic1
+arithmetic1       : arithsignal1 term arithmetic11
+                  | ;
+
+arithmetic11      : arithmetic1
                   | ;
 
 arithsignal1      : PLUS
@@ -78,8 +84,10 @@ arithsignal1      : PLUS
 
 term              : unaryexpr arithmetic2;
 
-arithmetic2       : arithsignal2 unaryexpr
-                  | arithsignal2 unaryexpr arithmetic2
+arithmetic2       : arithsignal2 unaryexpr arithmetic21
+                  | ;
+
+arithmetic21      : arithmetic2
                   | ;
 
 arithsignal2      : MULT
@@ -91,9 +99,9 @@ unaryexpr         : arithsignal3 factor;
 arithsignal3      : arithsignal1
                   | ;
 
-factor            : INT_CONSTANT 
-                  | FLOAT_CONSTANT 
-                  | STRING_CONSTANT 
+factor            : INT_CONSTANT
+                  | FLOAT_CONSTANT
+                  | STRING_CONSTANT
                   | NULL
                   | lvalue
                   | OPENPAR expression CLOSEPAR;
