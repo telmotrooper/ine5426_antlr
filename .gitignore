@@ -5,6 +5,8 @@
 *.java
 *.class
 Expr*.py
+*.dot
+*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
