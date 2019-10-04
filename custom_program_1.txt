@@ -1,0 +1,116 @@
+{
+	{
+		int i;
+		int n;
+		int t1;
+		int t2;
+		int nextTerm;
+		n = 10;
+		t1 = 0;
+		t2 = 1;
+		for(i = 0; i < n; i = i + 1) {
+			nextTerm = t1 + t2;
+			t1 = t2;
+			t2 = nextTerm;
+		}
+		print "O numero da sequencia de fibonacci e";
+		print nextTerm;
+
+		int sobra;
+		sobra = nextTerm % 2;
+
+		if(sobra == 0) {
+			print "O valor obtido e par";
+		} else {
+			print "O valor obtido e impar";
+		}
+	}
+	{
+		print "Problema 1089 do URI";
+		int v;
+		int n;
+		int cont;
+		cont = 0;
+		v = new int[100];
+		n = 6;
+		if(n == 0) {
+			break;
+		}
+		if(n == 2) {
+			if(v[1] != v[2]) {
+				cont = 2;
+			}
+		} else {
+			int j;
+			v[n+1] = v[1];
+			v[0] = v[n];
+			for(j = 0; j < n+1; j = j+1) {
+				if (v[i] > v[i-1]) {
+					if(v[i] > v[i+1]) {
+						cont = cont + 1;
+					}
+				}
+				if (v[i] < v[i-1]) {
+					if(v[i] < v[i+1]) {
+						cont = cont + 1;
+					}
+				}
+			}
+		}
+
+		print cont;
+	}
+	{
+		print "Problema 2392 do URI";
+		int n;
+		int s;
+		int i;
+		int v;
+		c = new int[101];
+		n = 8;
+		s = 1;
+		int salto;
+		salto = 3;
+		int p;
+		p = 3;
+		int j;
+		for(j = p; j <= n; j = j + salto) {
+			v[j] = 1;
+		}
+		for(j = p; j >= 0; j = j-salto) {
+			v[j] = 1;
+		}
+		for(j = 0; j <= n; j = j+1) {
+			print j[i];
+		}
+	}
+	{
+		print "Problema 1555 do URI";
+		int a;
+		int b;
+		int c;
+		int x;
+		int y;
+		x = 30;
+		y = 20;
+		a = ((3*x)*(3*x))+y*y;
+		b = (2*x*x)+((5*y)*(5*y));
+		c = (-1*100*x)+(y*y*y);
+
+		if(a > b) {
+			if(a > c) {
+				print "Rafael ganhou";
+			}
+		}
+		if(b > a) {
+			if(b > c) {
+				print "Beto ganhou";
+			}
+		}
+		if(c > a) {
+			if(c > b) {
+				print "Carlos ganhou";
+			}
+		}
+	}
+}

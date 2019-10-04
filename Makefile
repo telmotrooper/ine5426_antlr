@@ -2,6 +2,7 @@
 ANTLR_PATH = ./antlr-4.7.2-complete.jar
 ANTLR = java -jar $(ANTLR_PATH)
 GRUN = java -cp .:$(ANTLR_PATH) org.antlr.v4.gui.TestRig
+INPUT = ./example_program.txt
 
 default:
 	@echo "You need Java 8+ and Python 3 installed to build and run this application."
@@ -15,4 +16,4 @@ clean:
 	@echo "Done."
 
 start:
-	python3 ./main.py ./input.txt
+	python3 ./main.py $(INPUT)
