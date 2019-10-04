@@ -15,6 +15,8 @@ gen-diagrams:
 	@$(ANTLR) -atn Expr.g4
 
 view-diagram:
+	@echo "To view a diagram you need the package graphviz installed."
+	@echo -e "On Ubuntu: \u001b[32msudo apt get graphviz\u001b[0m"
 	@dot -Tpng $(INPUT).dot -o $(INPUT).png
 	@xdg-open $(INPUT).png
 
