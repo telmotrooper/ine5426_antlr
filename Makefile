@@ -16,4 +16,4 @@ clean:
 	@echo "Done."
 
 start:
-	python3 ./main.py $(INPUT)
+	@python3 ./main.py $(INPUT)
