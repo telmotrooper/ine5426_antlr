@@ -142,7 +142,7 @@ DIV             : '\\';
 MODULO          : '%';
 NULL            : 'null';
 IDENT           : [a-zA-Z0-9]+;
-STRING_CONSTANT : ["a-zA-Z0-9!?_]+;
+STRING_CONSTANT : '"' .*? '"';
 FLOAT_CONSTANT  : ('0'..'9')+ '.' ('0'..'9')+;
 
 WHITESPACE   : (' '|'\t'|'\n'|'\r')+ -> skip ;
