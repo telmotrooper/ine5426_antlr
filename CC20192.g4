@@ -1,19 +1,17 @@
-grammar CCC20192;
-
-// sintático
+grammar CC20192;
 
 program           : statement1;
 
-statement1        : statement 
+statement1        : statement
                   | ;
 
-statement         : vardecl SEMICOLON 
+statement         : vardecl SEMICOLON
                   | atribstat SEMICOLON
                   | printstat SEMICOLON
                   | readstat SEMICOLON
                   | returnstat SEMICOLON
-                  | ifstat SEMICOLON
-                  | forstat SEMICOLON
+                  | ifstat
+                  | forstat
                   | OPENBRACE statelist CLOSEBRACE
                   | BREAK SEMICOLON
                   | SEMICOLON;
@@ -24,8 +22,10 @@ vartype           : INT
                   | FLOAT
                   | STRING;
 
-brackets          : OPENBRACKET INT_CONSTANT CLOSEBRACKET
-                  | OPENBRACKET INT_CONSTANT CLOSEBRACKET brackets;
+brackets          : OPENBRACKET INT_CONSTANT CLOSEBRACKET brackets1
+                  | ;
+
+brackets1         : brackets
                   | ;
 
 atribstat         : lvalue ATRIB atribexpress;
@@ -53,15 +53,18 @@ statelist1        : statelist
 
 allocexpression   : NEW vartype OPENBRACKET expression CLOSEBRACKET bracketexpress;
 
-bracketexpress    : OPENBRACKET expression CLOSEBRACKET
-                  | OPENBRACKET expression CLOSEBRACKET bracketexpress;
+bracketexpress    : OPENBRACKET expression CLOSEBRACKET bracketexpress1
+                  | ;
+
+bracketexpress1   : bracketexpress
+                  | ;
 
 expression        : numexpression expression1;
 
 expression1       : signal numexpression
                   | ;
 
-signal            : LESS 
+signal            : LESS
                   | GREATER
                   | LESS_EQ
                   | GREATER_EQ
@@ -70,16 +73,22 @@ signal            : LESS
 
 numexpression     : term arithmetic1;
 
-arithmetic1       : arithsignal1 term
-                  | arithsignal1 term arithmetic1;
+arithmetic1       : arithsignal1 term arithmetic11
+                  | ;
+
+arithmetic11      : arithmetic1
+                  | ;
 
 arithsignal1      : PLUS
                   | MINUS;
 
 term              : unaryexpr arithmetic2;
 
-arithmetic2       : arithsignal2 unaryexpr
-                  | arithsignal2 unaryexpr arithmetic2;
+arithmetic2       : arithsignal2 unaryexpr arithmetic21
+                  | ;
+
+arithmetic21      : arithmetic2
+                  | ;
 
 arithsignal2      : MULT
                   | DIV
@@ -90,22 +99,20 @@ unaryexpr         : arithsignal3 factor;
 arithsignal3      : arithsignal1
                   | ;
 
-factor            : INT_CONSTANT 
-                  | FLOAT_CONSTANT 
-                  | STRING_CONSTANT 
+factor            : INT_CONSTANT
+                  | FLOAT_CONSTANT
+                  | STRING_CONSTANT
                   | NULL
                   | lvalue
                   | OPENPAR expression CLOSEPAR;
 
 lvalue            : IDENT bracketexpress;
 
-// lexico
 
 SEMICOLON       : ';';
 OPENBRACE       : '{';
 CLOSEBRACE      : '}';
 BREAK           : 'break';
-IDENT           : [a-zA-Z0-9]+;
 INT             : 'int';
 FLOAT           : 'float';
 STRING          : 'string';
@@ -133,11 +140,9 @@ MINUS           : '-';
 MULT            : '*';
 DIV             : '\\';
 MODULO          : '%';
-FLOAT_CONSTANT  : [0-9+.0.9+];
-STRING_CONSTANT : [a-zA-Z0-9]*;
 NULL            : 'null';
+IDENT           : [a-zA-Z0-9]+;
+STRING_CONSTANT : '"' .*? '"';
+FLOAT_CONSTANT  : ('0'..'9')+ '.' ('0'..'9')+;
 
 WHITESPACE   : (' '|'\t'|'\n'|'\r')+ -> skip ;
-
-
-

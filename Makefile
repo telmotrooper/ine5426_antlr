@@ -1,15 +1,16 @@
 # VARIABLES
+GRAMMAR = CC20192
 ANTLR_PATH = antlr-4.7.2-complete.jar
 ANTLR = java -jar $(ANTLR_PATH)
-GRUN = java -cp .:$(ANTLR_PATH) org.antlr.v4.gui.TestRig
-INPUT = input/example.txt
+GRUN = java -cp .:../$(ANTLR_PATH) org.antlr.v4.gui.TestRig
+# INPUT = ../input/example.txt
 
 build:
 	@echo "You need Java 8+ installed to build and run this application."
 	@echo "Generating lexer and parser..."
-	@$(ANTLR) Expr.g4 -o src
+	@$(ANTLR) $(GRAMMAR).g4 -o src
 	@echo "Generating diagrams..."
-	@$(ANTLR) Expr.g4 -atn -o diagrams
+	@$(ANTLR) $(GRAMMAR).g4 -atn -o diagrams
 	@javac -cp .:$(ANTLR_PATH) src/*.java -d ./bin
 	@echo "Program successfully compiled."
 	@echo "To run it, use 'make start' or 'make start INPUT=file_path'."
@@ -24,8 +25,9 @@ view-diagram:
 
 clean:
 	@echo "Removing old files (if they exist)..."
-	@rm -rf .antlr *.dot *.png *.java *.interp *.tokens *.class Expr*.py 2> /dev/null
+	@rm -rf .antlr *.dot *.png *.java *.interp *.tokens *.class 2> /dev/null
+	@rm -rf bin diagrams src 2> /dev/null
 	@echo "Done."
 
 start:
-	@cat $(INPUT) | $(GRUN) Expr program -gui
+	@cd bin && cat ../$(INPUT) | $(GRUN) CC20192 program -gui
