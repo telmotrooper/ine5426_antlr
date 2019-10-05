@@ -1,19 +1,19 @@
 # VARIABLES
-ANTLR_PATH = lib/antlr-4.7.2-complete.jar
+ANTLR_PATH = antlr-4.7.2-complete.jar
 ANTLR = java -jar $(ANTLR_PATH)
 GRUN = java -cp .:$(ANTLR_PATH) org.antlr.v4.gui.TestRig
 INPUT = input/example.txt
 
 build:
-	@echo "You need Java 8+ and Python 3 installed to build and run this application."
-	@$(ANTLR) Expr.g4
-	@javac -cp .:$(ANTLR_PATH) Expr*.java
-	@echo "Program successfully compiled."
-	@echo "To run it, use 'make start'."
-
-gen-diagrams:
+	@echo "You need Java 8+ installed to build and run this application."
+	@echo "Generating lexer and parser..."
+	@$(ANTLR) Expr.g4 -o src
 	@echo "Generating diagrams..."
-	@$(ANTLR) -atn Expr.g4
+	@$(ANTLR) Expr.g4 -atn -o diagrams
+	@javac -cp .:$(ANTLR_PATH) src/*.java -d ./bin
+	@echo "Program successfully compiled."
+	@echo "To run it, use 'make start' or 'make start INPUT=file_path'."
+
 
 view-diagram:
 	@echo "To view a diagram you need the package graphviz installed."

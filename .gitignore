@@ -7,6 +7,9 @@
 Expr*.py
 *.dot
 *.png
+bin/
+src/
+diagrams/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
