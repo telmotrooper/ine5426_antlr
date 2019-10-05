@@ -3,31 +3,37 @@ GRAMMAR = CC20192
 ANTLR_PATH = antlr-4.7.2-complete.jar
 ANTLR = java -jar $(ANTLR_PATH)
 GRUN = java -cp .:../$(ANTLR_PATH) org.antlr.v4.gui.TestRig
-# INPUT = ../input/example.txt
+INPUT = input/test.txt
+
+# ANSI ESCAPE CODES
+GREEN = \u001b[32m
+YELLOW = \u001b[33m
+RESET = \u001b[0m
 
 build:
-	@echo "You need Java 8+ installed to build and run this application."
-	@echo "Generating lexer and parser..."
+	@echo -e "(You need Java 8+ installed to build and run this application.)"
+	@echo -e "Generating lexer and parser..."
 	@$(ANTLR) $(GRAMMAR).g4 -o src
-	@echo "Generating diagrams..."
+	@echo -e "Generating diagrams..."
 	@$(ANTLR) $(GRAMMAR).g4 -atn -o diagrams
 	@javac -cp .:$(ANTLR_PATH) src/*.java -d ./bin
-	@echo "Program successfully compiled."
-	@echo "To run it, use 'make start' or 'make start INPUT=file_path'."
+	@echo -e "Program successfully compiled."
+	@echo -e "To run it, use $(GREEN)make start$(RESET) or '$(GREEN)make start INPUT=$(YELLOW)file_path$(RESET)'."
 
 
 view-diagram:
-	@echo "To view a diagram you need the package graphviz installed."
-	@echo -e "On Ubuntu: \u001b[32msudo apt get graphviz\u001b[0m"
-	@dot -Tpng $(INPUT).dot -o $(INPUT).png
+	@echo -e "To view a diagram you need Graphviz installed (on Ubuntu: $(GREEN)sudo apt get graphviz$(RESET))."
+	@echo -e "Converting DOT file to PNG..."
+	@dot -Tpng $(INPUT) -o $(INPUT).png
+	@echo -e "Showing state transition diagram for \"$(INPUT)\"..."
 	@xdg-open $(INPUT).png
 
 
 clean:
-	@echo "Removing old files (if they exist)..."
-	@rm -rf .antlr *.dot *.png *.java *.interp *.tokens *.class 2> /dev/null
+	@echo -e "Removing old files (if they exist)..."
+	@rm -rf .antlr bin diagrams src 2> /dev/null
 	@rm -rf bin diagrams src 2> /dev/null
-	@echo "Done."
+	@echo -e "Done."
 
 start:
 	@cd bin && cat ../$(INPUT) | $(GRUN) CC20192 program -gui
