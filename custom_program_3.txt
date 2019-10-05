@@ -1,0 +1,128 @@
+{
+	int x;
+	read x;
+	print x;
+	int pilha;
+	int fila;
+	int topo;
+	topo = -1;
+	pilha = new int[100];
+	fila = new int[100];
+	int i;
+	int cancel;
+	int imprime;
+	int informaTopo;
+	int add;
+	int remove;
+	int clear;
+
+	cancel = 0;
+	imprime = 1;
+	informaTopo = 2;
+	add = 3;
+	remove = 4;
+	clear = 5;
+
+	int informaEstrutura;
+	read informaEstrutura;
+
+	if(informaEstrutura == 0) {
+		print "implementacao de uma pilha de inteiros";
+		for(i = 0; i < 1; i = i+0) {
+			int command;
+			read command;
+			if(command == cancel) {
+				print "comando de cancelamento do laco";
+				break;
+			}
+
+			if(command == imprime) {
+				int j;
+				for(j = 0; j < topo; j = j + 1) {
+					print pilha[j];
+				}
+			}
+			if(command == informaTopo) {
+				if(topo >= 0) {
+					print pilha[topo];
+				} else {
+					print "pilha vazia";
+				}
+			}
+			if(command == add) {
+				if(topo < 100) {
+					topo = topo + 1;
+					int data;
+					read data;
+					pilha[topo] = data;
+				} else {
+					print "pilha cheia";
+				}
+			}
+			if(command == remove) {
+				if(topo >= 0) {
+					print pilha[topo];
+					topo = topo - 1;
+				} else {
+					print "pilha vazia";
+				}
+			}
+			if(command == clear) {
+				print "limpando pilha";
+				topo = -1;
+			}	
+		}
+		return;
+	} else {
+
+		print "implementacao de uma fila de inteiros";
+		for(i = 0; i < 1; i = i+0) {
+			int command;
+			read command;
+			if(command == cancel) {
+				print "comando de cancelamento do laco";
+				break;
+			}
+			if(command == imprime) {
+				int j;
+				for(j = 0; j < topo; j = j + 1) {
+					print fila[j];
+				}
+			}
+			if(command == informaTopo) {
+				if(topo >= 0) {
+					print fila[topo];
+				} else {
+					print "fila vazia";
+				}
+			}
+			if(command == add) {
+				if(topo < 100) {
+					topo = topo + 1;
+					int data;
+					read data;
+					fila[topo] = data;
+				} else {
+					print "fila cheia";
+				}
+			}
+			if(command == remove) {
+				if(topo >= 0) {
+					print fila[0];
+					int k;
+					for(k = 1; k <= topo; k = k + 1) {
+						fila[k-1] = fila[k];
+					}
+					topo = topo - 1;
+				} else {
+					print "fila vazia";
+				}
+			}
+			if(command == clear) {
+				print "limpando fila";
+				topo = -1;
+			}
+		}
+		return;
+	}
+}
