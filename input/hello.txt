@@ -1,6 +1,5 @@
 {
   {
     print "Hello, World!";
-    float x;
   }
 }

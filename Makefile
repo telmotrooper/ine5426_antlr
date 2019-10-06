@@ -3,7 +3,7 @@ GRAMMAR = CC20192
 ANTLR_PATH = antlr-4.7.2-complete.jar
 ANTLR = java -jar $(ANTLR_PATH)
 GRUN = java -cp .:../$(ANTLR_PATH) org.antlr.v4.gui.TestRig
-INPUT = input/test.txt
+INPUT = input/hello.txt
 
 # ANSI ESCAPE CODES
 GREEN = \u001b[32m
