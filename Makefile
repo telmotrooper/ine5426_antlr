@@ -16,6 +16,7 @@ build:
 	@$(ANTLR) $(GRAMMAR).g4 -o src
 	@echo -e "Generating diagrams..."
 	@$(ANTLR) $(GRAMMAR).g4 -atn -o diagrams
+	@cd diagrams && rm *.interp *.tokens *.java
 	@javac -cp .:$(ANTLR_PATH) src/*.java -d ./bin
 	@echo -e "Program successfully compiled."
 	@echo -e "To run it, use $(GREEN)make start$(RESET) or '$(GREEN)make start INPUT=$(YELLOW)file_path$(RESET)'."

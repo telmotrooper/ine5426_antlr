@@ -7,4 +7,5 @@
 * `make` - compila a aplicação
 * `make clean` - remove os arquivos temporários
 * `make start` - inicia o analisador léxico em cima do arquivo `input/example.txt`
-* `make start INPUT=custom_program_1.txt` - inicia o analisador léxico em cima do arquivo `program1.txt` (qualquer programa CC-2019-2 pode ser colocado em INPUT)
+* `make start INPUT=program1.txt` - inicia o analisador léxico em cima do arquivo `program1.txt` (qualquer programa CC-2019-2 pode ser colocado em INPUT)
+* `make view-diagram INPUT=diagrams/CC20192Lexer.IF.dot` - mostra o diagrama de transição especificado por INPUT (requer o pacote `graphviz` instalado)
