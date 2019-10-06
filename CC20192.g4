@@ -145,4 +145,4 @@ IDENT           : [a-zA-Z0-9]+;
 STRING_CONSTANT : '"' .*? '"';
 FLOAT_CONSTANT  : ('0'..'9')+ '.' ('0'..'9')+;
 
-WHITESPACE   : (' '|'\t'|'\n'|'\r')+ -> skip ;
+WHITESPACE   : (' '|'\t'|'\n'|'\r')+ -> skip;
