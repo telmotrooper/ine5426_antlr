@@ -8,13 +8,14 @@ from src.CC20192Parser import CC20192Parser
 def main(argv):
     input_stream = FileStream(argv[1])
     lexer = CC20192Lexer(input_stream)
-
-    print(lexer)
-
     stream = CommonTokenStream(lexer)
+
+    print("Token list:\n")
+    print(stream.getText())
+
     parser = CC20192Parser(stream)
     tree = parser.program()
-    print("Parse tree (in text):\n")
+    print("\nParse tree (in text):\n")
     print(tree.toStringTree(recog=parser))
  
 if __name__ == '__main__':
