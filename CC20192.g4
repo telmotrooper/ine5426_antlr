@@ -141,7 +141,7 @@ MULT            : '*';
 DIV             : '\\';
 MODULO          : '%';
 NULL            : 'null';
-IDENT           : [a-zA-Z0-9]+;
+IDENT           : [a-zA-Z_][a-zA-Z0-9_]*;
 STRING_CONSTANT : '"' .*? '"';
 FLOAT_CONSTANT  : ('0'..'9')+ '.' ('0'..'9')+;
 
