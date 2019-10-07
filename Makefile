@@ -14,6 +14,7 @@ build:
 	@echo -e "(You need Java 8+ installed to build and run this application.)"
 	@echo -e "Generating lexer and parser..."
 	@$(ANTLR) $(GRAMMAR).g4 -o src
+	@$(ANTLR) $(GRAMMAR).g4 -o src -Dlanguage=Python3
 	@echo -e "Generating diagrams..."
 	@$(ANTLR) $(GRAMMAR).g4 -atn -o diagrams
 	@cd diagrams && rm *.interp *.tokens *.java
@@ -38,3 +39,4 @@ clean:
 
 start:
 	@cd bin && cat ../$(INPUT) | $(GRUN) CC20192 program -gui
+	@python3 main.py $(INPUT)
