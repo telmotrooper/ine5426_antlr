@@ -11,7 +11,7 @@ YELLOW = \u001b[33m
 RESET = \u001b[0m
 
 build:
-	@echo -e "(You need Java 8+ installed to build and run this application.)"
+	@echo -e "(You need Java 8+ and Python 3 installed to build and run this application.)"
 	@echo -e "Generating lexer and parser..."
 	@$(ANTLR) $(GRAMMAR).g4 -o src
 	@$(ANTLR) $(GRAMMAR).g4 -o src -Dlanguage=Python3
@@ -38,5 +38,5 @@ clean:
 	@echo -e "Done."
 
 start:
-	@cd bin && cat ../$(INPUT) | $(GRUN) CC20192 program -gui
 	@python3 main.py $(INPUT)
+	@cd bin && cat ../$(INPUT) | $(GRUN) CC20192 program -gui

@@ -1,6 +1,6 @@
 # Analisadores Léxico e Sintático para Linguagem CC-2019-2
 
-É necessário ter Java versão 8 ou superior instalado para utilizar essa aplicação e, caso queira visualizar os diagramas de transição, o pacote `graphviz`.
+É necessário ter Java versão 8 ou superior e Python 3 instalados para utilizar essa aplicação e, caso queira visualizar os diagramas de transição, o pacote `graphviz`.
 
 ## Comandos
 
