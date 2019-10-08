@@ -8,6 +8,20 @@ from src.CC20192Parser import CC20192Parser
 def main(argv):
     input_stream = FileStream(argv[1])
     lexer = CC20192Lexer(input_stream)
+
+    extra_input_stream = FileStream(argv[1])
+    extra_lexer = CC20192Lexer(extra_input_stream)
+
+    i = 0
+    x = extra_lexer.getAllTokens()
+    for token in x:
+        print("Índice: {0}".format(i))
+        print("Linha: {0} Coluna: {1}".format(token.line, token.column))
+        print("Lexema: {0}".format(token.text))
+        print("Token: {0}".format(lexer.symbolicNames[token.type]))
+        print("---")
+        i += 1
+
     stream = CommonTokenStream(lexer)
 
     print("Token list:\n")
