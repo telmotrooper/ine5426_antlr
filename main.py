@@ -4,7 +4,8 @@ import sys
 from antlr4 import *
 from src.CC20192Lexer import CC20192Lexer
 from src.CC20192Parser import CC20192Parser
- 
+from tabulate import tabulate
+
 def main(argv):
     input_stream = FileStream(argv[1])
     lexer = CC20192Lexer(input_stream)
@@ -12,16 +13,15 @@ def main(argv):
     extra_input_stream = FileStream(argv[1])
     extra_lexer = CC20192Lexer(extra_input_stream)
 
+    table = []
+
     i = 0
     x = extra_lexer.getAllTokens()
     for token in x:
-        print("Índice: {0}".format(i))
-        print("Linha: {0} Coluna: {1}".format(token.line, token.column))
-        print("Lexema: {0}".format(token.text))
-        print("Token: {0}".format(lexer.symbolicNames[token.type]))
-        print("---")
+        table.append([i, token.line, token.column, extra_lexer.symbolicNames[token.type], token.text])
         i += 1
 
+    print(tabulate(table, headers=["Índice", "Linha", "Coluna", "Token", "Lexema"]))
     stream = CommonTokenStream(lexer)
 
     print("Token list:\n")
