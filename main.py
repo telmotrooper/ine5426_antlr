@@ -21,10 +21,11 @@ def main(argv):
         table.append([i, token.line, token.column, extra_lexer.symbolicNames[token.type], token.text])
         i += 1
 
+    print("Tabela de símbolos:")
     print(tabulate(table, headers=["Índice", "Linha", "Coluna", "Token", "Lexema"]))
     stream = CommonTokenStream(lexer)
 
-    print("Token list:\n")
+    print("\nLista de tokens:")
     print(stream.getText())
 
     parser = CC20192Parser(stream)
