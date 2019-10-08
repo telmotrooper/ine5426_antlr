@@ -12,9 +12,11 @@ statement         : vardecl SEMICOLON
                   | returnstat SEMICOLON
                   | ifstat
                   | forstat
-                  | OPENBRACE statelist CLOSEBRACE
+                  | blockstatement
                   | BREAK SEMICOLON
                   | SEMICOLON;
+
+blockstatement    : OPENBRACE statelist CLOSEBRACE;
 
 vardecl           : vartype IDENT brackets;
 
@@ -22,10 +24,7 @@ vartype           : INT
                   | FLOAT
                   | STRING;
 
-brackets          : OPENBRACKET INT_CONSTANT CLOSEBRACKET brackets1
-                  | ;
-
-brackets1         : brackets
+brackets          : OPENBRACKET INT_CONSTANT CLOSEBRACKET brackets
                   | ;
 
 atribstat         : lvalue ATRIB atribexpress;
@@ -39,9 +38,9 @@ readstat          : READ lvalue;
 
 returnstat        : RETURN;
 
-ifstat            : IF OPENPAR expression CLOSEPAR statement elsestat;
+ifstat            : IF OPENPAR expression CLOSEPAR blockstatement elsestat;
 
-elsestat          : ELSE statement
+elsestat          : ELSE blockstatement
                   | ;
 
 forstat           : FOR OPENPAR atribstat SEMICOLON expression SEMICOLON atribstat CLOSEPAR statement;
@@ -73,10 +72,7 @@ signal            : LESS
 
 numexpression     : term arithmetic1;
 
-arithmetic1       : arithsignal1 term arithmetic11
-                  | ;
-
-arithmetic11      : arithmetic1
+arithmetic1       : arithsignal1 term arithmetic1
                   | ;
 
 arithsignal1      : PLUS
@@ -84,10 +80,7 @@ arithsignal1      : PLUS
 
 term              : unaryexpr arithmetic2;
 
-arithmetic2       : arithsignal2 unaryexpr arithmetic21
-                  | ;
-
-arithmetic21      : arithmetic2
+arithmetic2       : arithsignal2 unaryexpr arithmetic2
                   | ;
 
 arithsignal2      : MULT
