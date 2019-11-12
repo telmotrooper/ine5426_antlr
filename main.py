@@ -10,12 +10,12 @@ from tabulate import tabulate
 def main(argv):
     input_stream = FileStream(argv[1])
     lexer = CC20192Lexer(input_stream)
-    lexer.removeErrorListeners()   # Deixando o backend do Java tratar os erros
+    # lexer.removeErrorListeners()   # Deixando o backend do Java tratar os erros
 
     # Essas instâncias são utilizadas apenas para gerar a árvore de símbolos
     extra_input_stream = FileStream(argv[1])
     extra_lexer = CC20192Lexer(extra_input_stream)
-    extra_lexer.removeErrorListeners()  # Deixando o backend do Java tratar os erros
+    extra_lexer.removeErrorListeners()
 
     # Montando a árvore de símbolos
     table = []
@@ -33,7 +33,7 @@ def main(argv):
     print(stream.getText() + "\n")
 
     parser = CC20192Parser(stream)
-    parser.removeErrorListeners()  # Deixando o backend do Java tratar os erros
+    # parser.removeErrorListeners()  # Deixando o backend do Java tratar os erros
     tree = parser.program()
     # print("\nParse tree (in text):\n")
     # print(tree.toStringTree(recog=parser))
