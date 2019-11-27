@@ -5,6 +5,7 @@ from antlr4 import *
 from src.CC20192Lexer import CC20192Lexer
 from src.CC20192Parser import CC20192Parser
 from tabulate import tabulate
+from database import conn
 
 
 def main(argv):
@@ -22,6 +23,11 @@ def main(argv):
     i = 0
     token_list = extra_lexer.getAllTokens()
     for token in token_list:
+        # conn.execute('''
+        #     INSERT INTO symbols(id, line, column, token, lexeme, scope)
+        #     VALUES (?,?,?,?,?, NULL)
+        # ''', [i, token.line, token.column, extra_lexer.symbolicNames[token.type], token.text])
+
         table.append([i, token.line, token.column, extra_lexer.symbolicNames[token.type], token.text])
         i += 1
 

@@ -40,4 +40,4 @@ clean:
 
 start:
 	@python3 main.py $(INPUT)
-	@cd bin && cat ../$(INPUT) | $(GRUN) CC20192 program -gui 2> /dev/null
+	# @cd bin && cat ../$(INPUT) | $(GRUN) CC20192 program -gui 2> /dev/null
