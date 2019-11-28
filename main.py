@@ -23,16 +23,21 @@ def main(argv):
     i = 0
     token_list = extra_lexer.getAllTokens()
     for token in token_list:
-        # conn.execute('''
-        #     INSERT INTO symbols(id, line, column, token, lexeme, scope)
-        #     VALUES (?,?,?,?,?, NULL)
-        # ''', [i, token.line, token.column, extra_lexer.symbolicNames[token.type], token.text])
+        conn.execute('''
+            INSERT INTO symbols(id, line, column, token, lexeme, scope)
+            VALUES (?,?,?,?,?, NULL)
+        ''', (i, token.line, token.column, extra_lexer.symbolicNames[token.type], token.text))
+        conn.commit()
 
-        table.append([i, token.line, token.column, extra_lexer.symbolicNames[token.type], token.text])
         i += 1
 
+    table = []
+
+    for row in conn.execute("SELECT * FROM symbols"):
+        table.append(row)
+
     print("Tabela de símbolos:")
-    print(tabulate(table, headers=["Índice", "Linha", "Coluna", "Token", "Lexema"]))
+    print(tabulate(table, headers=["Índice", "Linha", "Coluna", "Token", "Lexema", "Scope"]))
     stream = CommonTokenStream(lexer)
 
     print("\n" + "Lista de tokens:")

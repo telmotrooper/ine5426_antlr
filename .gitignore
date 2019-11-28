@@ -1,3 +1,5 @@
+*.db
+
 # ANTLR
 .antlr
 *.interp
