@@ -11,7 +11,6 @@ from database import conn
 def main(argv):
     input_stream = FileStream(argv[1])
     lexer = CC20192Lexer(input_stream)
-    # lexer.removeErrorListeners()   # Deixando o backend do Java tratar os erros
 
     # Essas instâncias são utilizadas apenas para gerar a árvore de símbolos
     extra_input_stream = FileStream(argv[1])
@@ -21,6 +20,7 @@ def main(argv):
     # Montando a árvore de símbolos
     table = []
     i = 0
+
     token_list = extra_lexer.getAllTokens()
     for token in token_list:
         conn.execute('''
@@ -30,8 +30,6 @@ def main(argv):
         conn.commit()
 
         i += 1
-
-    table = []
 
     for row in conn.execute("SELECT * FROM symbols"):
         table.append(row)
@@ -44,7 +42,6 @@ def main(argv):
     print(stream.getText() + "\n")
 
     parser = CC20192Parser(stream)
-    # parser.removeErrorListeners()  # Deixando o backend do Java tratar os erros
     tree = parser.program()
     # print("\nParse tree (in text):\n")
     # print(tree.toStringTree(recog=parser))
