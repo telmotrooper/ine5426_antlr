@@ -3,6 +3,18 @@ grammar CC20192;
 program           : statement1;
 
 statement1        : statement
+                  | fuclist
+                  | ;
+
+funclist          : funcdef funclist1
+
+funclist1         : funclist
+                  | ;
+
+funcdef           : DEF IDENT OPENPAR paramlist CLOSEPAR OPENBRACE statelist CLOSEBRACE
+
+paramlist         : vartype IDENT COMMA paramlist
+                  | vartype IDENT
                   | ;
 
 statement         : vardecl SEMICOLON
@@ -30,7 +42,14 @@ brackets          : OPENBRACKET INT_CONSTANT CLOSEBRACKET brackets
 atribstat         : lvalue ATRIB atribexpress;
 
 atribexpress      : expression
-                  | allocexpression;
+                  | allocexpression
+                  | funccal;
+
+funccal           : IDENT OPENPAR paramlistcall CLOSEPAR
+
+paramlistcall     : IDENT COMMA paramlistcall
+                  | IDENT
+                  | ;
 
 printstat         : PRINT expression;
 
@@ -103,8 +122,10 @@ lvalue            : IDENT bracketexpress;
 
 
 SEMICOLON       : ';';
+COMMA           : ',';
 OPENBRACE       : '{';
 CLOSEBRACE      : '}';
+DEF             : 'def';
 BREAK           : 'break';
 INT             : 'int';
 FLOAT           : 'float';
