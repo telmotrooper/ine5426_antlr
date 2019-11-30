@@ -3,15 +3,15 @@ grammar CC20192;
 program           : statement1;
 
 statement1        : statement
-                  | fuclist
+                  | funclist
                   | ;
 
-funclist          : funcdef funclist1
+funclist          : funcdef funclist1;
 
 funclist1         : funclist
                   | ;
 
-funcdef           : DEF IDENT OPENPAR paramlist CLOSEPAR OPENBRACE statelist CLOSEBRACE
+funcdef           : DEF IDENT OPENPAR paramlist CLOSEPAR OPENBRACE statelist CLOSEBRACE;
 
 paramlist         : vartype IDENT COMMA paramlist
                   | vartype IDENT
@@ -45,7 +45,7 @@ atribexpress      : expression
                   | allocexpression
                   | funccal;
 
-funccal           : IDENT OPENPAR paramlistcall CLOSEPAR
+funccal           : IDENT OPENPAR paramlistcall CLOSEPAR;
 
 paramlistcall     : IDENT COMMA paramlistcall
                   | IDENT
