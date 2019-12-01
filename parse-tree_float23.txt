@@ -1,0 +1,43 @@
+digraph G {
+    "1" [label="vardecl.name = x
+vardecl.type = array(array(float, 3), 2)"]
+
+    "2" [label="vartype.val = float"]
+
+    "2.5" [label="IDENT"]
+
+    "3" [label="FLOAT"]
+    
+    "4" [label="brackets.baseType = float
+brackets.type = array(array(float, 2), 3)"]
+
+    "5" [label="["]
+    
+    "6" [label="IC"]
+    
+    "7" [label="]"]
+    
+    "8" [label="brackets.baseType = array(float, 2)
+brackets.type = array(array(float, 2), 3)"]
+    
+    "9" [label="["]
+
+    "10" [label="IC"]
+
+    "11" [label="]"]
+
+    "12" [label="brackets.baseType = array(array(float, 2), 3)
+brackets.type = array(array(float, 2), 3)"]
+
+    "14" [label="ε"]
+
+    "1" -> {"2", "2.5", "4"}
+
+    "2" -> "3"
+    
+    "4" -> {"5", "6", "7", "8"}
+    
+    "8" -> {"9", "10", "11", "12"}
+    
+    "12" -> "14"
+}
