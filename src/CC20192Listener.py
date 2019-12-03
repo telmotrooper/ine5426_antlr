@@ -82,8 +82,16 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#vardecl.
     def enterVardecl(self, ctx:CC20192Parser.VardeclContext):
-        print("EITA")
-        pass
+        print("getText: " + ctx.getText())
+        print("ctx.parentCtx.getText: " + ctx.parentCtx.getText())
+        for child in ctx.children:
+            child.val = "teste"
+            print("child.getText: " + child.getText())
+
+        for child in ctx.children:
+            child.val = "teste"
+            print(child.val)
+
 
     # Exit a parse tree produced by CC20192Parser#vardecl.
     def exitVardecl(self, ctx:CC20192Parser.VardeclContext):
