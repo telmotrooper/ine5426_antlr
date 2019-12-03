@@ -1,4 +1,5 @@
 # Generated from CC20192.g4 by ANTLR 4.7.2
+from src.invertNumOrder import invertNumOrder
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .CC20192Parser import CC20192Parser
@@ -82,22 +83,33 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#vardecl.
     def enterVardecl(self, ctx:CC20192Parser.VardeclContext):
-        print("getText: " + ctx.getText())
-        print("ctx.parentCtx.getText: " + ctx.parentCtx.getText())
-        for child in ctx.children:
-            child.val = "teste"
-            print("child.getText: " + child.getText())
+        vardecl, vartype = ctx, ctx.children[0]
+        ident, brackets = ctx.children[1], ctx.children[2]
+
+        vardecl.name = ident.getText()
+        if hasattr(vartype, 'val'):
+            brackets.baseType = vartype.val
+        if hasattr(brackets, 'type'):
+            vardecl.type = invertNumOrder(brackets.type)
+        
+        if hasattr(vardecl, 'type'):
+            print("vardecl.name = " + vardecl.name)
+            print("vardecl.type = " + vardecl.type)
 
 
     # Exit a parse tree produced by CC20192Parser#vardecl.
     def exitVardecl(self, ctx:CC20192Parser.VardeclContext):
-        pass
+        vardecl = ctx
+        if hasattr(vardecl, 'type'):
+            print("vardecl.name = " + vardecl.name)
+            print("vardecl.type = " + vardecl.type)
 
 
     # Enter a parse tree produced by CC20192Parser#vartype.
     def enterVartype(self, ctx:CC20192Parser.VartypeContext):
-        if hasattr(ctx, 'val'):
-            print(ctx.val)
+        # vartype.val = int | float | string
+        ctx.val = ctx.children[0]
+
 
     # Exit a parse tree produced by CC20192Parser#vartype.
     def exitVartype(self, ctx:CC20192Parser.VartypeContext):
@@ -106,7 +118,20 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#brackets.
     def enterBrackets(self, ctx:CC20192Parser.BracketsContext):
-        pass
+        if not ctx.children:
+            # brackets.type = brackets.baseType
+            if hasattr(ctx, 'baseType'):
+                ctx.type = ctx.baseType
+        else:
+            brackets = ctx
+            openBracket, intConst = ctx.children[0], ctx.children[1]
+            closeBracket, bracketChild = ctx.children[2], ctx.children[3]
+
+            if hasattr(brackets, 'baseType'):
+                bracketChild.baseType = "array(" + brackets.baseType + ", " + intConst.getText() + ")"
+
+            if hasattr(brackets, 'type'):
+                brackets.type = bracketChild.type
 
     # Exit a parse tree produced by CC20192Parser#brackets.
     def exitBrackets(self, ctx:CC20192Parser.BracketsContext):
