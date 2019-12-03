@@ -88,10 +88,6 @@ class CC20192Listener(ParseTreeListener):
             child.val = "teste"
             print("child.getText: " + child.getText())
 
-        for child in ctx.children:
-            child.val = "teste"
-            print(child.val)
-
 
     # Exit a parse tree produced by CC20192Parser#vardecl.
     def exitVardecl(self, ctx:CC20192Parser.VardeclContext):
@@ -100,7 +96,8 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#vartype.
     def enterVartype(self, ctx:CC20192Parser.VartypeContext):
-        pass
+        if hasattr(ctx, 'val'):
+            print(ctx.val)
 
     # Exit a parse tree produced by CC20192Parser#vartype.
     def exitVartype(self, ctx:CC20192Parser.VartypeContext):
