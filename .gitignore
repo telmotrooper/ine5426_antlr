@@ -10,7 +10,6 @@ Expr*.py
 *.dot
 *.png
 bin/
-src/
 diagrams/
 .idea/
 
