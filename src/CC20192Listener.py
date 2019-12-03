@@ -83,23 +83,20 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#vardecl.
     def enterVardecl(self, ctx:CC20192Parser.VardeclContext):
-        vardecl, vartype = ctx, ctx.children[0]
+        vardecl = ctx
         ident, brackets = ctx.children[1], ctx.children[2]
 
         vardecl.name = ident.getText()
-        if hasattr(vartype, 'val'):
-            brackets.baseType = vartype.val
-        if hasattr(brackets, 'type'):
-            vardecl.type = invertNumOrder(brackets.type)
-        
-        if hasattr(vardecl, 'type'):
-            print("vardecl.name = " + vardecl.name)
-            print("vardecl.type = " + vardecl.type)
-
 
     # Exit a parse tree produced by CC20192Parser#vardecl.
     def exitVardecl(self, ctx:CC20192Parser.VardeclContext):
-        vardecl = ctx
+        vardecl, vartype = ctx, ctx.children[0]
+        ident, brackets = ctx.children[1], ctx.children[2]
+
+        if hasattr(brackets, 'type'):
+            vardecl.type = invertNumOrder(brackets.type)
+        
+        # Print them for testing
         if hasattr(vardecl, 'type'):
             print("vardecl.name = " + vardecl.name)
             print("vardecl.type = " + vardecl.type)
@@ -107,8 +104,9 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#vartype.
     def enterVartype(self, ctx:CC20192Parser.VartypeContext):
-        # vartype.val = int | float | string
-        ctx.val = ctx.children[0]
+        brackets = ctx.parentCtx.children[2]
+        # brackets.baseType = int | float | string
+        brackets.baseType = ctx.children[0].getText()
 
 
     # Exit a parse tree produced by CC20192Parser#vartype.
@@ -130,12 +128,14 @@ class CC20192Listener(ParseTreeListener):
             if hasattr(brackets, 'baseType'):
                 bracketChild.baseType = "array(" + brackets.baseType + ", " + intConst.getText() + ")"
 
-            if hasattr(brackets, 'type'):
-                brackets.type = bracketChild.type
 
     # Exit a parse tree produced by CC20192Parser#brackets.
     def exitBrackets(self, ctx:CC20192Parser.BracketsContext):
-        pass
+        if ctx.children:
+            brackets, bracketChild = ctx, ctx.children[3]
+
+            if hasattr(bracketChild, 'type'):
+                brackets.type = bracketChild.type
 
 
     # Enter a parse tree produced by CC20192Parser#atribstat.
