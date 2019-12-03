@@ -17,7 +17,7 @@ RESET = \u001b[0m
 # 	@echo -e "To run it, use $(GREEN)make start$(RESET) or '$(GREEN)make start INPUT=$(YELLOW)file_path$(RESET)'."
 
 help:
-	@echo -e "To run it, use $(GREEN)make start$(RESET) or '$(GREEN)make start INPUT=$(YELLOW)file_path$(RESET)'."
+	@echo -e "To run the program, use '$(GREEN)make start$(RESET)' or '$(GREEN)make start INPUT=$(YELLOW)file_path$(RESET)'."
 
 start:
 	@python3 main.py $(INPUT)
