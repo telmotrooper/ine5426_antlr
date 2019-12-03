@@ -4,6 +4,7 @@ import sys
 from antlr4 import *
 from src.CC20192Lexer import CC20192Lexer
 from src.CC20192Parser import CC20192Parser
+from src.CC20192Listener import CC20192Listener
 from tabulate import tabulate
 from database import conn
 
@@ -43,9 +44,13 @@ def main(argv):
 
     parser = CC20192Parser(stream)
     tree = parser.program()
+
     # print("\nParse tree (in text):\n")
     # print(tree.toStringTree(recog=parser))
 
+    listener = CC20192Listener()
+    walker = ParseTreeWalker()
+    walker.walk(listener, tree)
 
 if __name__ == '__main__':
     main(sys.argv)

@@ -82,6 +82,7 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#vardecl.
     def enterVardecl(self, ctx:CC20192Parser.VardeclContext):
+        print("EITA")
         pass
 
     # Exit a parse tree produced by CC20192Parser#vardecl.
