@@ -16,7 +16,9 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#program.
     def enterProgram(self, ctx:CC20192Parser.ProgramContext):
-        pass
+        program, statement1 = ctx, ctx.children[0]
+        statement1.scope = self.newScope()
+        statement1.loopScope = False
 
     # Exit a parse tree produced by CC20192Parser#program.
     def exitProgram(self, ctx:CC20192Parser.ProgramContext):
@@ -25,7 +27,10 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#statement1.
     def enterStatement1(self, ctx:CC20192Parser.Statement1Context):
-        pass
+        statement1, statement = ctx, ctx.children[0]
+        statement.loopScope = statement1.loopScope
+        statement.scope = statement1.scope
+
 
     # Exit a parse tree produced by CC20192Parser#statement1.
     def exitStatement1(self, ctx:CC20192Parser.Statement1Context):
