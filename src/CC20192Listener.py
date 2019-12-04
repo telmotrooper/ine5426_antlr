@@ -76,7 +76,14 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#paramlist.
     def enterParamlist(self, ctx:CC20192Parser.ParamlistContext):
-        pass
+        if(not ctx.children):
+            pass
+        elif len(ctx.children) == 4:
+            pass
+        elif len(ctx.children) == 2:
+            pass
+
+        
 
     # Exit a parse tree produced by CC20192Parser#paramlist.
     def exitParamlist(self, ctx:CC20192Parser.ParamlistContext):
