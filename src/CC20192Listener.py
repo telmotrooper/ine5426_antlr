@@ -104,9 +104,10 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#vartype.
     def enterVartype(self, ctx:CC20192Parser.VartypeContext):
-        brackets = ctx.parentCtx.children[2]
-        # brackets.baseType = int | float | string
-        brackets.baseType = ctx.children[0].getText()
+        if type(ctx.parentCtx) == CC20192Parser.VardeclContext:
+            brackets = ctx.parentCtx.children[2]
+            # brackets.baseType = int | float | string
+            brackets.baseType = ctx.children[0].getText()
 
 
     # Exit a parse tree produced by CC20192Parser#vartype.
