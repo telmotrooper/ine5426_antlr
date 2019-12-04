@@ -1,5 +1,6 @@
 # Generated from CC20192.g4 by ANTLR 4.7.2
 from src.invertNumOrder import invertNumOrder
+from database import setScope, checkForScopeError
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .CC20192Parser import CC20192Parser
