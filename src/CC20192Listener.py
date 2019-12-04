@@ -8,6 +8,11 @@ else:
 
 # This class defines a complete listener for a parse tree produced by CC20192Parser.
 class CC20192Listener(ParseTreeListener):
+    scope = 0
+
+    def newScope(self):
+        self.scope += 1
+        return self.scope
 
     # Enter a parse tree produced by CC20192Parser#program.
     def enterProgram(self, ctx:CC20192Parser.ProgramContext):
@@ -97,9 +102,9 @@ class CC20192Listener(ParseTreeListener):
             vardecl.type = invertNumOrder(brackets.type)
         
         # Print them for testing
-        if hasattr(vardecl, 'type'):
-            print("vardecl.name = " + vardecl.name)
-            print("vardecl.type = " + vardecl.type)
+        # if hasattr(vardecl, 'type'):
+        #     print("vardecl.name = " + vardecl.name)
+        #     print("vardecl.type = " + vardecl.type)
 
 
     # Enter a parse tree produced by CC20192Parser#vartype.
