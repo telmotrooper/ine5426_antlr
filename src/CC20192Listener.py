@@ -31,7 +31,6 @@ class CC20192Listener(ParseTreeListener):
         statement.loopScope = statement1.loopScope
         statement.scope = statement1.scope
 
-
     # Exit a parse tree produced by CC20192Parser#statement1.
     def exitStatement1(self, ctx:CC20192Parser.Statement1Context):
         pass
@@ -41,9 +40,11 @@ class CC20192Listener(ParseTreeListener):
     def enterFunclist(self, ctx:CC20192Parser.FunclistContext):
         pass
 
+
     # Exit a parse tree produced by CC20192Parser#funclist.
     def exitFunclist(self, ctx:CC20192Parser.FunclistContext):
-        pass
+        funclist, funcdef, funclist1 = ctx, ctx.children[0], ctx.children[1]
+        funclist.loopScope = funclist1.loopScope
 
 
     # Enter a parse tree produced by CC20192Parser#funclist1.
@@ -52,12 +53,21 @@ class CC20192Listener(ParseTreeListener):
 
     # Exit a parse tree produced by CC20192Parser#funclist1.
     def exitFunclist1(self, ctx:CC20192Parser.Funclist1Context):
-        pass
+        funclist1, funclist = ctx, ctx.children[0]
+        funclist1.loopScope = funclist.loopScope
 
 
     # Enter a parse tree produced by CC20192Parser#funcdef.
     def enterFuncdef(self, ctx:CC20192Parser.FuncdefContext):
-        pass
+        funcdef, Def, ident   = ctx, ctx.children[0], ctx.children[1]
+        openpar, paramlist    = ctx.children[2], ctx.children[3]
+        closepar, openbrace   = ctx.children[4], ctx.children[5]
+        statelist, closebrace = ctx.children[6], ctx.children[7]
+
+        statelist.scope = funcdef.scope
+        statelist.loopScope = False
+        paramlist.scope = funcdef.scope
+
 
     # Exit a parse tree produced by CC20192Parser#funcdef.
     def exitFuncdef(self, ctx:CC20192Parser.FuncdefContext):
