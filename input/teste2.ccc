@@ -1,4 +1,4 @@
-def cohen_sutherland_point(int xs, ys, xe, ye, xws, yws, xwe, ywe) {
+def cohen_sutherland_point(float xs, float ys, float xe, float ye, float xws, float yws, float xwe, float ywe) {
 	int rc1[4];
 	int rc2[4];
 	int rcw[4];
@@ -56,19 +56,19 @@ def cohen_sutherland_point(int xs, ys, xe, ye, xws, yws, xwe, ywe) {
 		print "invisible";
 	}
 }
-{
+def main() {
 	int n;
-	double mean;
-	double min;
-	double max;
-	double aux;
+	float mean;
+	float min;
+	float max;
+	float aux;
 	read aux;
 	min = aux;
 	max = aux;
-	double mean_sum;
+	float mean_sum;
 	mean_sum = aux;
 	n = 1;
-	double variance_sum;
+	float variance_sum;
 	variance_sum = aux*aux;
 
 	int quit;
@@ -90,9 +90,9 @@ def cohen_sutherland_point(int xs, ys, xe, ye, xws, yws, xwe, ywe) {
 		n = n+1;
 		variance_sum = variance_sum + (aux * aux);
 	}
-	mean = mean_sum/n;
-	double variance;
-	variance = (variance_sum - ((mean_sum * mean_sum)/n))/(n -1);
+	mean = mean_sum\n;
+	float variance;
+	variance = (variance_sum - ((mean_sum * mean_sum)\n))\(n -1);
 	print n;
 	print min;
 	print max;

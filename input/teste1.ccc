@@ -3,13 +3,13 @@ def metodo_simpson(float a, float b) {
 	n = 4;
 	print "Metodo de simpson para integracao de x2 + 2";
 	float h;
-	h = (b-a)/n;
+	h = (b-a)\n;
 	float x[5];
 	int i;
 	for( i = 0; i < 5; i = i+1) {
 		x[i] = a + i * h;
 	}
-	double soma;
+	float soma;
 	soma = 0;
 	int coef;
 	for(i = 0; i < 5; i = i+1) {
@@ -28,7 +28,7 @@ def metodo_simpson(float a, float b) {
 		soma = soma + (x[i] * x[i] + 2)*coef; 
 	}
 	float resultado;
-	resultado = soma * (h/3);
+	resultado = soma * (h\3);
 	print soma;
 }
 def metodo_simpson_duplo(float a, float b, float c, float d) {
@@ -39,8 +39,8 @@ def metodo_simpson_duplo(float a, float b, float c, float d) {
 	print "Metodo de simpson para integracao dupla de x*y + 2";
 	float hx;
 	float hy;
-	hx = (b-a)/nx;
-	hy = (d-c)/ny;
+	hx = (b-a)\nx;
+	hy = (d-c)\ny;
 	float x[5];
 	float y[3];
 	int i;
@@ -50,7 +50,7 @@ def metodo_simpson_duplo(float a, float b, float c, float d) {
 	for(i = 0; i < 3; i = i+1) {
 		y[i] = c + i*hy;
 	}
-	double soma;
+	float soma;
 	soma = 0;
 	int coef_x;
 	int coef_y;
@@ -85,12 +85,14 @@ def metodo_simpson_duplo(float a, float b, float c, float d) {
 		soma = soma + (x[i] * y[j] + 2)*coef_x * coef_y; 
 	}
 	float resultado;
-	resultado = soma * (h/3) * (h/3);
+	resultado = soma * (h\3) * (h\3);
 	print soma;
 }
 def teste_escopo() {
-	int x = 6;
-	int y = 4;
+	int x;
+	x = 6;
+	int y;
+	y = 4;
 	int i;
 	for(i = 0; i < x; i = i+1) {
 		if(i == y) {
@@ -98,7 +100,4 @@ def teste_escopo() {
 		}
 	}
 	print i;
-}
-def teste_escopo_errado() {
-	break;
 }
