@@ -64,8 +64,13 @@ class CC20192Listener(ParseTreeListener):
 
     # Exit a parse tree produced by CC20192Parser#funclist1.
     def exitFunclist1(self, ctx:CC20192Parser.Funclist1Context):
-        funclist1, funclist = ctx, ctx.children[0]
-        funclist1.loopScope = funclist.loopScope
+        funclist1 = ctx
+
+        if not ctx.children:  # funclist1 → ε  
+            pass
+        if(ctx.children):     # funclist1 → funclist
+            funclist = ctx.children[0]
+            funclist1.loopScope = funclist.loopScope
 
 
     # Enter a parse tree produced by CC20192Parser#funcdef.
@@ -87,11 +92,17 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#paramlist.
     def enterParamlist(self, ctx:CC20192Parser.ParamlistContext):
-        if(not ctx.children):
+        paramlist = ctx
+
+        if(not ctx.children):         # paramlist → ε
             pass
-        elif len(ctx.children) == 4:
+        elif len(ctx.children) == 4:  # paramlist → vartype IDENT COMMA paramlist
+            vartype, ident = ctx.children[0], ctx.children[1]
+            comma, paramlistChild = ctx.children[2], ctx.children[3]
+
+            print(ident.getText())
             pass
-        elif len(ctx.children) == 2:
+        elif len(ctx.children) == 2:  # paramlist → vartype IDENT
             pass
 
         
