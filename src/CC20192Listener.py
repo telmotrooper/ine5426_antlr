@@ -230,7 +230,7 @@ class CC20192Listener(ParseTreeListener):
 
         if ctx.children[0].getText() == "break":
             statement.code = "go to " + statement.next
-        elif type(ctx.children[0] == CC20192Parser.AtribstatContext):
+        elif type(ctx.children[0]) == CC20192Parser.AtribstatContext:
             atribstat = ctx.children[0]
             # GCI
             statement.code = atribstat.code
@@ -614,6 +614,7 @@ class CC20192Listener(ParseTreeListener):
         # GCI
         if not ctx.children:  # expression1 → ε
             expression1.register = expression1.beginRegister
+            expression1.code = ""
         else:                 # expression1 → signal numexpression
             expression1.register = self.newRegister()
 
@@ -625,7 +626,7 @@ class CC20192Listener(ParseTreeListener):
             pass
         else:                 # expression1 → signal numexpression
             signal, numexpression = ctx.children[0], ctx.children[1]
-            
+
             expression1.code = numexpression.code + expression1.register + "=" + \
                 expression1.beginRegister + signal.symbol + numexpression.register
 
