@@ -1,0 +1,104 @@
+def metodo_simpson(float a, float b) {
+	int n;
+	n = 4;
+	print "Metodo de simpson para integracao de x2 + 2";
+	float h;
+	h = (b-a)/n;
+	float x[5];
+	int i;
+	for( i = 0; i < 5; i = i+1) {
+		x[i] = a + i * h;
+	}
+	double soma;
+	soma = 0;
+	int coef;
+	for(i = 0; i < 5; i = i+1) {
+		if(i == 0) {
+			coef = 1;
+		}
+		if(i == 4) {
+			coef = 1;
+		}
+		if(i % 2 == 0) {
+			coef = 2;
+		}
+		if(i %2 == 1) {
+			coef = 4;
+		}
+		soma = soma + (x[i] * x[i] + 2)*coef; 
+	}
+	float resultado;
+	resultado = soma * (h/3);
+	print soma;
+}
+def metodo_simpson_duplo(float a, float b, float c, float d) {
+	int nx;
+	int ny;
+	nx = 4;
+	ny = 2;
+	print "Metodo de simpson para integracao dupla de x*y + 2";
+	float hx;
+	float hy;
+	hx = (b-a)/nx;
+	hy = (d-c)/ny;
+	float x[5];
+	float y[3];
+	int i;
+	for( i = 0; i < 5; i = i+1) {
+		x[i] = a + i * hx;
+	}
+	for(i = 0; i < 3; i = i+1) {
+		y[i] = c + i*hy;
+	}
+	double soma;
+	soma = 0;
+	int coef_x;
+	int coef_y;
+	for(i = 0; i < 5; i = i+1) {
+		if(i == 0) {
+			coef_x = 1;
+		}
+		if(i == 4) {
+			coef_x = 1;
+		}
+		if(i % 2 == 0) {
+			coef_x = 2;
+		}
+		if(i %2 == 1) {
+			coef_x = 4;
+		}
+		int j;
+		for(j = 0; j < 3; j = j+1) {
+			if(i == 0) {
+				coef_y = 1;
+			}
+			if(i == 4) {
+				coef_y = 1;
+			}
+			if(i % 2 == 0) {
+				coef_y = 2;
+			}
+			if(i %2 == 1) {
+				coef_y = 4;
+			}
+		}
+		soma = soma + (x[i] * y[j] + 2)*coef_x * coef_y; 
+	}
+	float resultado;
+	resultado = soma * (h/3) * (h/3);
+	print soma;
+}
+def teste_escopo() {
+	int x = 6;
+	int y = 4;
+	int i;
+	for(i = 0; i < x; i = i+1) {
+		if(i == y) {
+			break;
+		}
+	}
+	print i;
+}
+def teste_escopo_errado() {
+	break;
+}
