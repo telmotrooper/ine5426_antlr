@@ -620,7 +620,20 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#signal.
     def enterSignal(self, ctx:CC20192Parser.SignalContext):
-        pass
+        signal = ctx
+        if ctx.children[0].getText() == "<":
+            signal.symbol = "<"
+        elif ctx.children[0].getText() == ">":
+            signal.symbol = ">"
+        elif ctx.children[0].getText() == "<=":
+            signal.symbol = "<="
+        elif ctx.children[0].getText() == ">=":
+            signal.symbol = ">="
+        elif ctx.children[0].getText() == "==":
+            signal.symbol = "=="
+        elif ctx.children[0].getText() == "!=":
+            signal.symbol = "!="
+        
 
     # Exit a parse tree produced by CC20192Parser#signal.
     def exitSignal(self, ctx:CC20192Parser.SignalContext):
