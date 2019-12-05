@@ -100,8 +100,9 @@ class CC20192Listener(ParseTreeListener):
             vartype, ident = ctx.children[0], ctx.children[1]
             comma, paramlistChild = ctx.children[2], ctx.children[3]
 
-            print(ident.getText())
-            pass
+            # IDENT.Scope = paramlist.Scope
+            setScope(ident.getText(), paramlist.scope)
+
         elif len(ctx.children) == 2:  # paramlist → vartype IDENT
             pass
 

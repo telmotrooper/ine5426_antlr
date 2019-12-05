@@ -6,12 +6,13 @@
   "configurations": [
 
 
+
     {
       "name": "Run",
       "type": "python",
       "request": "launch",
       "program": "/home/telmo/Development/University/ine5426/main.py",
-      "args": ["/home/telmo/Development/University/ine5426/input/scope_test.ccc"],
+      "args": ["/home/telmo/Development/University/ine5426/input/scope_test2.ccc"],
       "console": "integratedTerminal"
     }
   ]
