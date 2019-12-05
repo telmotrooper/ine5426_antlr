@@ -121,10 +121,12 @@ class CC20192Listener(ParseTreeListener):
         statement = ctx
 
         if ctx.children[0].getText() == "break":
+            setScope('break', statement.scope)
             Break = ctx.children[0]
             Break.valid = statement.loopScope
             if not Break.valid:
-                print("ERROR: Invalid break")
+                entry = getEntryWithError('break', statement.scope)
+                print(f"ERROR: Invalid break (line {entry[1]}, column {entry[2]})")
                 sys.exit()
         elif type(ctx.children[0]) == CC20192Parser.VardeclContext:
             vardecl, semicolon = ctx.children[0], ctx.children[1]
