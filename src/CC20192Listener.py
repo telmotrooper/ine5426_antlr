@@ -788,21 +788,40 @@ class CC20192Listener(ParseTreeListener):
 
     # Exit a parse tree produced by CC20192Parser#unaryexpr.
     def exitUnaryexpr(self, ctx:CC20192Parser.UnaryexprContext):
-        pass
+        unaryexpr = ctx
+        arithsignal3, factor = ctx.children[0], ctx.children[1]
+        # GCI
+        unaryexpr.code = factor.code + unaryexpr.register + "=" + \
+            "0" + arithsignal3.symbol + factor.register
 
 
     # Enter a parse tree produced by CC20192Parser#arithsignal3.
     def enterArithsignal3(self, ctx:CC20192Parser.Arithsignal3Context):
-        pass
+        arithsignal3 = ctx
+
+        if not ctx.children:
+            arithsignal3.symbol = '+'
+        else:
+            pass
 
     # Exit a parse tree produced by CC20192Parser#arithsignal3.
     def exitArithsignal3(self, ctx:CC20192Parser.Arithsignal3Context):
-        pass
+        arithsignal3 = ctx
+
+        if not ctx.children:
+            pass
+        else:
+            arithsignal1 = ctx.children[0]
+            # GCI
+            arithsignal3.symbol = arithsignal1.symbol
 
 
     # Enter a parse tree produced by CC20192Parser#factor.
     def enterFactor(self, ctx:CC20192Parser.FactorContext):
-        pass
+        factor = ctx
+
+        factor.register = self.newRegister()
+        
 
     # Exit a parse tree produced by CC20192Parser#factor.
     def exitFactor(self, ctx:CC20192Parser.FactorContext):
