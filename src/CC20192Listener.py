@@ -11,20 +11,30 @@ else:
 # This class defines a complete listener for a parse tree produced by CC20192Parser.
 class CC20192Listener(ParseTreeListener):
     scope = 0
+    register = 0
 
     def newScope(self):
         self.scope += 1
         return self.scope
+    
+    def newRegister(self):
+        self.register += 1
+        return "t" + self.register
 
     # Enter a parse tree produced by CC20192Parser#program.
     def enterProgram(self, ctx:CC20192Parser.ProgramContext):
         program, statement1 = ctx, ctx.children[0]
         statement1.scope = self.newScope()
         statement1.loopScope = False
+        # GCI
+        statement1.next = "STOP"
 
     # Exit a parse tree produced by CC20192Parser#program.
     def exitProgram(self, ctx:CC20192Parser.ProgramContext):
-        pass
+        program, statement1 = ctx, ctx.children[0]
+        # GCI
+        program.code = statement1.code + "\nSTOP"
+        print("Código intermediário:\n" + program.code)
 
 
     # Enter a parse tree produced by CC20192Parser#statement1.
@@ -38,10 +48,15 @@ class CC20192Listener(ParseTreeListener):
             statement = ctx.children[0]
             statement.loopScope = statement1.loopScope
             statement.scope = statement1.scope
+            # GCI
+            statement.next = statement1.next
 
     # Exit a parse tree produced by CC20192Parser#statement1.
     def exitStatement1(self, ctx:CC20192Parser.Statement1Context):
-        pass
+        statement1 = ctx
+        if type(ctx.children[0]) == CC20192Parser.StatementContext:
+            statement = ctx.children[0]
+            statement1.code = statement1.code
 
 
     # Enter a parse tree produced by CC20192Parser#funclist.
