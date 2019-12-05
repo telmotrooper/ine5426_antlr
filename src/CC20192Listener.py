@@ -88,6 +88,7 @@ class CC20192Listener(ParseTreeListener):
         funclist1.scope = funclist.scope
         # GCI
         funcdef.next = funclist.next
+        funclist1.next = funclist.next
 
 
     # Exit a parse tree produced by CC20192Parser#funclist.
