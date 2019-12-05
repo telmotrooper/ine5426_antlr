@@ -642,12 +642,19 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#numexpression.
     def enterNumexpression(self, ctx:CC20192Parser.NumexpressionContext):
-        pass
+        numexpression = ctx  # numexpression → term arithmetic1
+        term, arithmetic1 = ctx.children[0], ctx.children[1]
+        # GCI
+        arithmetic1.register = self.newRegister()
+
 
     # Exit a parse tree produced by CC20192Parser#numexpression.
     def exitNumexpression(self, ctx:CC20192Parser.NumexpressionContext):
-        pass
-
+        numexpression = ctx  # numexpression → term arithmetic1
+        term, arithmetic1 = ctx.children[0], ctx.children[1]
+        # GCI
+        numexpression.code = term.code + arithmetic1.code
+        numexpression.register = arithmetic1.register
 
     # Enter a parse tree produced by CC20192Parser#arithmetic1.
     def enterArithmetic1(self, ctx:CC20192Parser.Arithmetic1Context):
