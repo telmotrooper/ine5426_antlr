@@ -768,7 +768,7 @@ class CC20192Listener(ParseTreeListener):
         # GCI
         if ctx.children[0].getText() == "*":
             arithsignal2.symbol = "*"
-        elif ctx.children[0].getText() == "/":
+        elif ctx.children[0].getText() == "\\":
             arithsignal2.symbol = "/"
         elif ctx.children[0].getText() == "%":
             arithsignal2.symbol = "%"
