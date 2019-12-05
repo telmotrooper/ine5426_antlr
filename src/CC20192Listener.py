@@ -697,7 +697,12 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#arithsignal1.
     def enterArithsignal1(self, ctx:CC20192Parser.Arithsignal1Context):
-        pass
+        arithsignal1 = ctx
+
+        if ctx.children[0].getText() == "+":
+            arithsignal1.symbol = "+"
+        elif ctx.children[0].getText() == "-":
+            arithsignal1.symbol = "-"
 
     # Exit a parse tree produced by CC20192Parser#arithsignal1.
     def exitArithsignal1(self, ctx:CC20192Parser.Arithsignal1Context):
