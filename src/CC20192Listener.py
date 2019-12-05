@@ -658,12 +658,30 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#arithmetic1.
     def enterArithmetic1(self, ctx:CC20192Parser.Arithmetic1Context):
-        pass
+        arithmetic1 = ctx
+        
+        if not ctx.children:  # arithmetic1 → ε
+            arithmetic1.code = ""
+            arithmetic1.register = arithmetic1.beginRegister
+        else:                 # arithmetic1 → arithsignal1 term arithmetic1¹
+            arithsignal1, term = ctx.children[0], ctx.children[1]
+            arithmetic1Child = ctx.children[2]
+            # GCI
+            arithmetic1Child.register = self.newRegister()
+            arithmetic1Child.beginRegister = arithmetic1.register
 
     # Exit a parse tree produced by CC20192Parser#arithmetic1.
     def exitArithmetic1(self, ctx:CC20192Parser.Arithmetic1Context):
-        pass
-
+        arithmetic1 = ctx
+        
+        if not ctx.children:  # arithmetic1 → ε
+            pass
+        else:                 # arithmetic1 → arithsignal1 term arithmetic1¹
+            arithsignal1, term = ctx.children[0], ctx.children[1]
+            arithmetic1Child = ctx.children[2]
+            # GCI
+            arithmetic1.code = term.code + arithmetic1Child.code + arithmetic1.register + \
+                "=" + arithmetic1.beginRegister + arithsignal1.symbol + term.register
 
     # Enter a parse tree produced by CC20192Parser#arithsignal1.
     def enterArithsignal1(self, ctx:CC20192Parser.Arithsignal1Context):
