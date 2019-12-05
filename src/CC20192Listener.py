@@ -1,4 +1,5 @@
 # Generated from CC20192.g4 by ANTLR 4.7.2
+import sys
 from src.invertNumOrder import invertNumOrder
 from database import setScope, checkForScopeError
 from antlr4 import *
@@ -141,7 +142,8 @@ class CC20192Listener(ParseTreeListener):
             Break = ctx.children[0]
             Break.valid = statement.loopScope
             if not Break.valid:
-                raise Exception("Invalid break")
+                print("ERROR: Invalid break")
+                sys.exit()
         elif type(ctx.children[0] == CC20192Parser.SEMICOLON):
             pass
 
@@ -175,7 +177,8 @@ class CC20192Listener(ParseTreeListener):
         setScope(ident.getText(), vardecl.scope)
 
         if checkForScopeError(ident.getText(), vardecl.scope):
-            raise Exception("Out of scope")
+            print("ERROR: Out of scope")
+            sys.exit()
 
     # Exit a parse tree produced by CC20192Parser#vardecl.
     def exitVardecl(self, ctx:CC20192Parser.VardeclContext):
