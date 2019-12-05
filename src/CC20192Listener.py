@@ -676,7 +676,15 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#term.
     def enterTerm(self, ctx:CC20192Parser.TermContext):
-        pass
+        term = ctx
+        unaryexpr, arithmetic2 = ctx.children[0], ctx.children[1]
+        
+        # GCI
+        term.register = self.newRegister()
+
+        if type(ctx.parentCtx) == CC20192Parser.NumexpressionContext:
+            arithmetic1 = ctx.parentCtx.children[1]
+            arithmetic1.beginRegister = term.register
 
     # Exit a parse tree produced by CC20192Parser#term.
     def exitTerm(self, ctx:CC20192Parser.TermContext):
