@@ -431,8 +431,8 @@ class CC20192Listener(ParseTreeListener):
             expression, closepar = ctx.children[2], ctx.children[3]
             blockstatement, elsestat = ctx.children[4], ctx.children[5]
             # GCI
-            expression.true  = self.newLabel()
-            expression.false = self.newLabel()
+            expression.true  = self.newLabel('IFSTAT')
+            expression.false = self.newLabel('IFSTAT')
             ifstat.code = expression.code + expression.true + blockstatement.code + \
                 "go to " + ifstat.next + expression.false + elsestat.code + "go to " + ifstat.next
             
@@ -442,17 +442,25 @@ class CC20192Listener(ParseTreeListener):
         elsestat = ctx
 
         if not ctx.children:
-            pass
+            # GCI
+            elsestat.code = ""
         elif len(ctx.children) == 2:
             Else, blockstatement = ctx.children[0], ctx.children[1]
             
             blockstatement.scope = elsestat.scope
             blockstatement.loopScope = elsestat.loopScope
+            # GCI
+            blockstatement.next = elsestat.next
 
 
     # Exit a parse tree produced by CC20192Parser#elsestat.
     def exitElsestat(self, ctx:CC20192Parser.ElsestatContext):
-        pass
+        elsestat = ctx
+
+        if len(ctx.children) == 2:
+            Else, blockstatement = ctx.children[0], ctx.children[1]
+            # GCI
+            elsestat.code = blockstatement.code + elsestat.next
 
 
     # Enter a parse tree produced by CC20192Parser#forstat.
@@ -468,10 +476,26 @@ class CC20192Listener(ParseTreeListener):
 
             statement.scope = forstat.scope
             statement.loopScope = True
+            # GCI
+            forstat.begin = self.newLabel('FORSTAT')
+            expression.true = self.newLabel('FORSTAT')
+            expression.false = forstat.next
+            statement.next = forstat.begin
 
     # Exit a parse tree produced by CC20192Parser#forstat.
     def exitForstat(self, ctx:CC20192Parser.ForstatContext):
-        pass
+        forstat = ctx
+
+        if len(ctx.children) == 9:
+            For, openpar = ctx.children[0], ctx.children[1]
+            atribstat, semicolon = ctx.children[2], ctx.children[3]
+            expression, semicolon2 = ctx.children[4], ctx.children[5]
+            atribstat2, closepar = ctx.children[6], ctx.children[7]
+            statement = ctx.children[8]
+            # GCI
+            forstat.code = atribstat.code + forstat.code + expression.code + expression.true + \
+                statement.code + atribstat.code + "go to " + forstat.begin
+
 
 
     # Enter a parse tree produced by CC20192Parser#statelist.
