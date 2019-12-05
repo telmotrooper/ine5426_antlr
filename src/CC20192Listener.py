@@ -318,7 +318,9 @@ class CC20192Listener(ParseTreeListener):
     def enterElsestat(self, ctx:CC20192Parser.ElsestatContext):
         elsestat = ctx
 
-        if len(ctx.children) == 2:
+        if not ctx.children:
+            pass
+        elif len(ctx.children) == 2:
             Else, blockstatement = ctx.children[0], ctx.children[1]
             
             blockstatement.scope = elsestat.scope
@@ -371,7 +373,9 @@ class CC20192Listener(ParseTreeListener):
     def enterStatelist1(self, ctx:CC20192Parser.Statelist1Context):
         statelist1 = ctx
 
-        if len(ctx.children) == 1:
+        if not ctx.children:
+            pass
+        elif len(ctx.children) == 1:
             statelist = ctx.children[0]
 
             statelist.scope = statelist1.scope
