@@ -313,7 +313,14 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#elsestat.
     def enterElsestat(self, ctx:CC20192Parser.ElsestatContext):
-        pass
+        elsestat = ctx
+
+        if len(ctx.children) == 2:
+            Else, blockstatement = ctx.children[0], ctx.children[1]
+            
+            blockstatement.scope = elsestat.scope
+            blockstatement.loopScope = elsestat.loopScope
+
 
     # Exit a parse tree produced by CC20192Parser#elsestat.
     def exitElsestat(self, ctx:CC20192Parser.ElsestatContext):
@@ -322,7 +329,17 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#forstat.
     def enterForstat(self, ctx:CC20192Parser.ForstatContext):
-        pass
+        forstat = ctx
+
+        if len(ctx.children) == 9:
+            For, openpar = ctx.children[0], ctx.children[1]
+            atribstat, semicolon = ctx.children[2], ctx.children[3]
+            expression, semicolon2 = ctx.children[4], ctx.children[5]
+            atribstat2, closepar = ctx.children[6], ctx.children[7]
+            statement = ctx.children[8]
+
+            statement.scope = forstat.scope
+            statement.loopScope = True
 
     # Exit a parse tree produced by CC20192Parser#forstat.
     def exitForstat(self, ctx:CC20192Parser.ForstatContext):
@@ -331,7 +348,16 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#statelist.
     def enterStatelist(self, ctx:CC20192Parser.StatelistContext):
-        pass
+        statelist = ctx
+
+        if len(ctx.children) == 2:
+            statement, statelist1 = ctx.children[0], ctx.children[1]
+
+            statement.scope = statelist.scope
+            statelist1.scope = statelist.scope
+            statement.loopScope = statelist.loopScope
+            statelist1.loopScope = statelist.loopScope
+
 
     # Exit a parse tree produced by CC20192Parser#statelist.
     def exitStatelist(self, ctx:CC20192Parser.StatelistContext):
@@ -340,7 +366,14 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#statelist1.
     def enterStatelist1(self, ctx:CC20192Parser.Statelist1Context):
-        pass
+        statelist1 = ctx
+
+        if len(ctx.children) == 1:
+            statelist = ctx.children[0]
+
+            statelist.scope = statelist1.scope
+            statelist.loopScope = statelist1.loopScope
+
 
     # Exit a parse tree produced by CC20192Parser#statelist1.
     def exitStatelist1(self, ctx:CC20192Parser.Statelist1Context):
