@@ -53,6 +53,8 @@ class CC20192Listener(ParseTreeListener):
         elif type(ctx.children[0]) == CC20192Parser.FunclistContext:  # statement1 → funclist
             funclist = ctx.children[0]
             funclist.scope = statement1.scope
+            # GCI
+            funclist.next = statement1.next
         elif type(ctx.children[0]) == CC20192Parser.StatementContext: # statement1 → statement
             statement = ctx.children[0]
             statement.loopScope = statement1.loopScope
@@ -83,6 +85,8 @@ class CC20192Listener(ParseTreeListener):
 
         funcdef.scope = self.newScope()
         funclist1.scope = funclist.scope
+        # GCI
+        funcdef.next = funclist.next
 
 
     # Exit a parse tree produced by CC20192Parser#funclist.
@@ -95,7 +99,10 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#funclist1.
     def enterFunclist1(self, ctx:CC20192Parser.Funclist1Context):
-        pass
+        funclist1, funclist = ctx, ctx.children[0]
+        # GCI
+        funclist.next = funclist1.next
+        
 
     # Exit a parse tree produced by CC20192Parser#funclist1.
     def exitFunclist1(self, ctx:CC20192Parser.Funclist1Context):
@@ -125,6 +132,7 @@ class CC20192Listener(ParseTreeListener):
 
         # GCI
         funcdef.start = self.newLabel('FUNCDEF')
+        statelist.next = funcdef.next
 
 
     # Exit a parse tree produced by CC20192Parser#funcdef.
@@ -198,6 +206,8 @@ class CC20192Listener(ParseTreeListener):
             blockstatement = ctx.children[0]
             blockstatement.scope = self.newScope()
             blockstatement.loopScope = statement.loopScope
+            # GCI
+            blockstatement.next = statement.next
 
         elif type(ctx.children[0] == CC20192Parser.PrintstatContext):
             printstat = ctx.children[0]
@@ -250,6 +260,8 @@ class CC20192Listener(ParseTreeListener):
 
             statelist.scope = blockstatement.scope
             statelist.loopScope = blockstatement.loopScope
+            # GCI
+            statelist.next = blockstatement.next
 
     # Exit a parse tree produced by CC20192Parser#blockstatement.
     def exitBlockstatement(self, ctx:CC20192Parser.BlockstatementContext):
