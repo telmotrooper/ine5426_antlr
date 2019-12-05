@@ -1,0 +1,101 @@
+def cohen_sutherland_point(int xs, ys, xe, ye, xws, yws, xwe, ywe) {
+	int rc1[4];
+	int rc2[4];
+	int rcw[4];
+	int i;
+	for(i = 0; i < 4; i = i+1) {
+		rc1[i] = 0;
+		rc2[i] = 0;
+		rcw[i] = 0;
+	}
+	if(xs < xws) {
+		rc1[3] = 1;
+	}	
+	if(xe < wxs) {
+		rc2[3] = 1;
+	}
+	if(xs > wxe) {
+		rc1[2] = 1;
+	}
+	if(xe > wxe) {
+		rc2[2] = 1;
+	}
+	if(ys < xys) {
+		rc1[1] = 1;
+	}	
+	if(ye < wys) {
+		rc2[1] = 1;
+	}
+	if(ys > wye) {
+		rc1[0] = 1;
+	}
+	if(ye > wye) {
+		rc2[0] = 1;
+	}
+	int flag;
+	flag = 0;
+	int i;
+	for(i = 0; i < 4; i = i+1) {
+		if(rc1[i] != rcw[i]) {
+			flag = 1;
+			break;
+		}
+		if(rc2[i] != rcw[i]) {
+			flag = 1;
+			break;
+		}
+	}
+	for(i = 0; i < 4; i = i+1) {
+		if((rc1[i] + rc2[i]) == 2) {
+			print "invisible";
+		}
+	}
+	if(flag == 0) {
+		print "visible";
+	} else {
+		print "invisible";
+	}
+}
+{
+	int n;
+	double mean;
+	double min;
+	double max;
+	double aux;
+	read aux;
+	min = aux;
+	max = aux;
+	double mean_sum;
+	mean_sum = aux;
+	n = 1;
+	double variance_sum;
+	variance_sum = aux*aux;
+
+	int quit;
+	quit = 0;
+	int i;
+	for(i = 2; i > 0; i = i+0) {
+		read quit;
+		if(quit == 1) {
+			break;
+		}
+		read aux;
+		if(aux < min) {
+			min = aux;
+		}
+		if(aux > max) {
+			max = aux;
+		}
+		mean_sum = mean_sum + aux;
+		n = n+1;
+		variance_sum = variance_sum + (aux * aux);
+	}
+	mean = mean_sum/n;
+	double variance;
+	variance = (variance_sum - ((mean_sum * mean_sum)/n))/(n -1);
+	print n;
+	print min;
+	print max;
+	print mean;
+	print variance;
+}

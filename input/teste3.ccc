@@ -1,0 +1,108 @@
+def mdc(int a, int b) {
+	int i;
+	int aux;
+	for(i = 2; i > 0; i = i+0) {
+		if(b == 0) {
+			break
+		} else {
+			aux = a;
+			a = b;
+			b = aux % b;
+		}
+	}
+	print a;
+}
+def binary_search(int n) {
+	int x[0];
+	x = new int[n];
+	int i;
+	int aux;
+	int j;
+	int k;
+	int aux1;
+	for(i = 0; i < n; i = i+1) {
+		read aux;
+		for(j = 0; j <= i; j = j+1) {
+			if(i == 0) {
+				x[i] = aux;
+			}
+			if(aux < x[j]) {
+				for(k = i+1; k > j; k = k-1) {
+					x[k] = x[k-1];
+				}
+				x[j] = aux;
+			}
+		}
+	}
+	int l;
+	int r;
+	l = 0;
+	r = n;
+	int pos;
+	int mid;
+	int item_procurado;
+	read item_procurado;
+	for(i = 2; i > 0; i = i+0) {
+		if(l > r) {
+			pos = -1;
+			break;
+		}
+		mid = l + (r - l)/2;
+		if(x[mid] == item_procurado) {
+			pos = mid;
+			break;
+		}
+		if(x[mid] > item_procurado) {
+			r = mid-1;
+		}
+		if(x[mid] < item_procurado) {
+			l = mid+1;
+		}
+	}
+}
+def selection_sort(int n) {
+	int x[0];
+	x = new int[n];
+	int i;
+	int j;
+	for(i = 0; i < n; i = i+1) {
+		read x[i];
+	}
+	int aux;
+	int min_index;
+	for(i = 0; i < n-1; i = i+1) {
+		min_index = i;
+		for(j = i+1; j < n; j = j+1) {
+			if(x[j] < x[min_index]) {
+				min_index = j;
+			}
+		}
+		aux = x[i];
+		x[i] = x[j];
+		x[j] = aux;
+	}
+	for(i = 0; i < n; i = i+1) {
+		print x[i];
+	}
+}
+def greater(int x, int y) {
+	if(x > y) {
+		print x;
+	} else {
+		print y;
+	}
+}
+{
+	print "Problema 2840 URI";
+	float pi;
+	double vol;
+	double radius;
+	read vol;
+	read radius;
+	pi = 3.1415;
+	float volbal;
+	volbal = 4.0/3.0 * pi * radius * radius * radius;
+	double amount;
+	amount = vol/volbal;
+	print amount;
+}
