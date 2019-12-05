@@ -3,7 +3,7 @@ def mdc(int a, int b) {
 	int aux;
 	for(i = 2; i > 0; i = i+0) {
 		if(b == 0) {
-			break
+			break;
 		} else {
 			aux = a;
 			a = b;
@@ -47,7 +47,7 @@ def binary_search(int n) {
 			pos = -1;
 			break;
 		}
-		mid = l + (r - l)/2;
+		mid = l + (r - l)\2;
 		if(x[mid] == item_procurado) {
 			pos = mid;
 			break;
@@ -92,17 +92,17 @@ def greater(int x, int y) {
 		print y;
 	}
 }
-{
+def main(){
 	print "Problema 2840 URI";
 	float pi;
-	double vol;
-	double radius;
+	float vol;
+	float radius;
 	read vol;
 	read radius;
 	pi = 3.1415;
 	float volbal;
-	volbal = 4.0/3.0 * pi * radius * radius * radius;
-	double amount;
-	amount = vol/volbal;
+	volbal = 4.0\3.0 * pi * radius * radius * radius;
+	float amount;
+	amount = vol\volbal;
 	print amount;
 }
