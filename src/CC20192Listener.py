@@ -28,9 +28,15 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#statement1.
     def enterStatement1(self, ctx:CC20192Parser.Statement1Context):
-        statement1, statement = ctx, ctx.children[0]
-        statement.loopScope = statement1.loopScope
-        statement.scope = statement1.scope
+        statement1 = ctx
+
+        if type(ctx.children[0]) == CC20192Parser.FunclistContext:
+            funclist = ctx.children[0]
+            funclist.scope = statement1.scope
+        elif type(ctx.children[0]) == CC20192Parser.StatementContext:
+            statement = ctx.children[0]
+            statement.loopScope = statement1.loopScope
+            statement.scope = statement1.scope
 
     # Exit a parse tree produced by CC20192Parser#statement1.
     def exitStatement1(self, ctx:CC20192Parser.Statement1Context):
