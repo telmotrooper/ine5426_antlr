@@ -620,11 +620,12 @@ class CC20192Listener(ParseTreeListener):
     # Exit a parse tree produced by CC20192Parser#expression1.
     def exitExpression1(self, ctx:CC20192Parser.Expression1Context):
         expression1 = ctx
-        signal, numexpression = ctx.children[0], ctx.children[1]
         # GCI
         if not ctx.children:  # expression1 → ε
             pass
         else:                 # expression1 → signal numexpression
+            signal, numexpression = ctx.children[0], ctx.children[1]
+            
             expression1.code = numexpression.code + expression1.register + "=" + \
                 expression1.beginRegister + signal.symbol + numexpression.register
 
