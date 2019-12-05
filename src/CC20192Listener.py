@@ -41,10 +41,12 @@ class CC20192Listener(ParseTreeListener):
     def enterStatement1(self, ctx:CC20192Parser.Statement1Context):
         statement1 = ctx
 
-        if type(ctx.children[0]) == CC20192Parser.FunclistContext:
+        if not ctx.children:
+            pass
+        elif type(ctx.children[0]) == CC20192Parser.FunclistContext:    # statement1 → funclist
             funclist = ctx.children[0]
             funclist.scope = statement1.scope
-        elif type(ctx.children[0]) == CC20192Parser.StatementContext:
+        elif type(ctx.children[0]) == CC20192Parser.StatementContext: # statement1 → statement
             statement = ctx.children[0]
             statement.loopScope = statement1.loopScope
             statement.scope = statement1.scope
@@ -54,9 +56,17 @@ class CC20192Listener(ParseTreeListener):
     # Exit a parse tree produced by CC20192Parser#statement1.
     def exitStatement1(self, ctx:CC20192Parser.Statement1Context):
         statement1 = ctx
-        if type(ctx.children[0]) == CC20192Parser.StatementContext:
+        if not ctx.children:
+            statement1.code = ""
+        elif type(ctx.children[0]) == CC20192Parser.FunclistContext:
+            funclist = ctx.children[0]
+            # GCI
+            statement1.code = funclist.code
+            pass
+        elif type(ctx.children[0]) == CC20192Parser.StatementContext:
+            # GCI
             statement = ctx.children[0]
-            statement1.code = statement1.code
+            statement1.code = statement.code
 
 
     # Enter a parse tree produced by CC20192Parser#funclist.
