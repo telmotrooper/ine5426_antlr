@@ -3,6 +3,7 @@ import sys
 from src.invertNumOrder import invertNumOrder
 from database import setScope, checkForScopeError, getEntryWithError
 from antlr4 import *
+import antlr4
 if __name__ is not None and "." in __name__:
     from .CC20192Parser import CC20192Parser
 else:
@@ -823,12 +824,26 @@ class CC20192Listener(ParseTreeListener):
         factor = ctx
         # GCI
         factor.register = self.newRegister()
-        # CC20192Parser.
+
+        if ctx.children[0].getText() == "null":
+            factor.code = factor.register + "=" + "0"
+        elif ctx.children[0].getText() == "(":
+            pass
+        elif type(ctx.children[0]) == antlr4.tree.Tree.TerminalNodeImpl: # int, float, string
+            factor.code = factor.register + "=" + ctx.children[0].getText()
 
 
     # Exit a parse tree produced by CC20192Parser#factor.
     def exitFactor(self, ctx:CC20192Parser.FactorContext):
-        pass
+        factor = ctx
+
+        # if
+        if type(ctx.children[0] == CC20192Parser.LvalueContext):
+            lvalue = ctx.children[0]
+            factor.code = lvalue.code + factor.register + "=" + lvalue.register
+        elif ctx.children[0].getText() == "(":
+            expression = ctx.children[1]
+            factor.code = expression.code + factor.register + "=" + expression.register
 
 
     # Enter a parse tree produced by CC20192Parser#lvalue.
