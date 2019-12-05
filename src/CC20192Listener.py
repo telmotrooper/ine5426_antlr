@@ -730,16 +730,44 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#arithmetic2.
     def enterArithmetic2(self, ctx:CC20192Parser.Arithmetic2Context):
-        pass
+        arithmetic2 = ctx
+
+        if not ctx.children:
+            arithmetic2.code = ""
+        else:
+            arithsignal2, unaryexpr = ctx.children[0], ctx.children[1]
+            arithmetic2Child = ctx.children[2]
+            # GCI
+            arithmetic2Child.register = self.newRegister()
+            arithmetic2Child.beginRegister = arithmetic2.register
 
     # Exit a parse tree produced by CC20192Parser#arithmetic2.
     def exitArithmetic2(self, ctx:CC20192Parser.Arithmetic2Context):
-        pass
+        arithmetic2 = ctx
+
+        if not ctx.children:
+            pass
+        else:
+            arithsignal2, unaryexpr = ctx.children[0], ctx.children[1]
+            arithmetic2Child = ctx.children[2]
+            # GCI
+            arithmetic2.code = unaryexpr.code + arithmetic2Child.code + arithmetic2.register + "=" + \
+                arithmetic2.beginRegister + arithsignal2.symbol + unaryexpr.register
+
 
 
     # Enter a parse tree produced by CC20192Parser#arithsignal2.
     def enterArithsignal2(self, ctx:CC20192Parser.Arithsignal2Context):
-        pass
+        arithsignal2 = ctx
+        # GCI
+        if ctx.children[0].getText() == "*":
+            arithsignal2.symbol = "*"
+        elif ctx.children[0].getText() == "/":
+            arithsignal2.symbol = "/"
+        elif ctx.children[0].getText() == "%":
+            arithsignal2.symbol = "%"
+        
+
 
     # Exit a parse tree produced by CC20192Parser#arithsignal2.
     def exitArithsignal2(self, ctx:CC20192Parser.Arithsignal2Context):
