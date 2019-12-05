@@ -666,7 +666,7 @@ class CC20192Listener(ParseTreeListener):
         # GCI
         numexpression.code = term.code + arithmetic1.code
         numexpression.register = arithmetic1.register
-        if type(ctx.parentCtx) == CC20192Parser.Expression1Context:
+        if type(ctx.parentCtx) == CC20192Parser.ExpressionContext:
             expression1 = ctx.parentCtx.children[1]
             expression1.beginRegister = numexpression.register
 
