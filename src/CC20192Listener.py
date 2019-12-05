@@ -45,7 +45,11 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#funclist.
     def enterFunclist(self, ctx:CC20192Parser.FunclistContext):
-        pass
+        funclist, funcdef = ctx, ctx.children[0]
+        funclist1 = ctx.children[1]
+
+        funcdef.scope = funclist.scope
+        funclist1.scope = funclist.scope
 
 
     # Exit a parse tree produced by CC20192Parser#funclist.
