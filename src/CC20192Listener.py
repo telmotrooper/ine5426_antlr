@@ -41,9 +41,10 @@ class CC20192Listener(ParseTreeListener):
     def enterStatement1(self, ctx:CC20192Parser.Statement1Context):
         statement1 = ctx
 
-        if not ctx.children:
-            pass
-        elif type(ctx.children[0]) == CC20192Parser.FunclistContext:    # statement1 → funclist
+        if not ctx.children: # statement1 → ε
+            # GCI
+            statement1.code = ""
+        elif type(ctx.children[0]) == CC20192Parser.FunclistContext:  # statement1 → funclist
             funclist = ctx.children[0]
             funclist.scope = statement1.scope
         elif type(ctx.children[0]) == CC20192Parser.StatementContext: # statement1 → statement
@@ -56,14 +57,14 @@ class CC20192Listener(ParseTreeListener):
     # Exit a parse tree produced by CC20192Parser#statement1.
     def exitStatement1(self, ctx:CC20192Parser.Statement1Context):
         statement1 = ctx
-        if not ctx.children:
-            statement1.code = ""
-        elif type(ctx.children[0]) == CC20192Parser.FunclistContext:
+        if not ctx.children: # statement1 → ε
+            pass
+        elif type(ctx.children[0]) == CC20192Parser.FunclistContext:  # statement1 → funclist
             funclist = ctx.children[0]
             # GCI
             statement1.code = funclist.code
             pass
-        elif type(ctx.children[0]) == CC20192Parser.StatementContext:
+        elif type(ctx.children[0]) == CC20192Parser.StatementContext: # statement1 → statement
             # GCI
             statement = ctx.children[0]
             statement1.code = statement.code
@@ -82,6 +83,8 @@ class CC20192Listener(ParseTreeListener):
     def exitFunclist(self, ctx:CC20192Parser.FunclistContext):
         funclist, funcdef, funclist1 = ctx, ctx.children[0], ctx.children[1]
         funclist.loopScope = funclist1.loopScope
+        # GCI
+        funclist.code = funcdef.start + funcdef.code + funclist1.code
 
 
     # Enter a parse tree produced by CC20192Parser#funclist1.
@@ -94,9 +97,13 @@ class CC20192Listener(ParseTreeListener):
 
         if not ctx.children:  # funclist1 → ε  
             funclist1.loopScope = False
+            # GCI
+            funclist1.code = ""
         if(ctx.children):     # funclist1 → funclist
             funclist = ctx.children[0]
             funclist1.loopScope = funclist.loopScope
+            # GCI
+            funclist1.code = funclist.code
 
 
     # Enter a parse tree produced by CC20192Parser#funcdef.
