@@ -9,5 +9,6 @@ def teste_escopo() {
       break;
     }
   }
+  break;
   return;
 }
