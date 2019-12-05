@@ -838,7 +838,7 @@ class CC20192Listener(ParseTreeListener):
         factor = ctx
 
         # if
-        if type(ctx.children[0] == CC20192Parser.LvalueContext):
+        if type(ctx.children[0]) == CC20192Parser.LvalueContext:
             lvalue = ctx.children[0]
             factor.code = lvalue.code + factor.register + "=" + lvalue.register
         elif ctx.children[0].getText() == "(":
