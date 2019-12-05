@@ -209,7 +209,8 @@ class CC20192Listener(ParseTreeListener):
             # GCI
             statement.code = ""
         elif ctx.children[0].getText() == ";":
-            pass
+            # GCI
+            statement.code = ""
 
 
     # Exit a parse tree produced by CC20192Parser#statement.
@@ -252,7 +253,12 @@ class CC20192Listener(ParseTreeListener):
 
     # Exit a parse tree produced by CC20192Parser#blockstatement.
     def exitBlockstatement(self, ctx:CC20192Parser.BlockstatementContext):
-        pass
+        blockstatement = ctx
+        if len(ctx.children) == 3:  # blockstatement → OPENBRACE statelist CLOSEBRACE
+            openbrace, statelist = ctx.children[0], ctx.children[1]
+            closebrace = ctx.children[2]
+            # GCI
+            blockstatement.code = statelist.code
 
 
     # Enter a parse tree produced by CC20192Parser#vardecl.
@@ -325,7 +331,12 @@ class CC20192Listener(ParseTreeListener):
 
     # Exit a parse tree produced by CC20192Parser#atribstat.
     def exitAtribstat(self, ctx:CC20192Parser.AtribstatContext):
-        pass
+        atribstat = ctx
+        lvalue, atrib = ctx.children[0], ctx.children[1]
+        atribexpress = ctx.children[2]
+
+        # GCI
+        atribstat.code = atribexpress.code + lvalue.register + "=" + atribexpress.register
 
 
     # Enter a parse tree produced by CC20192Parser#atribexpress.
@@ -334,7 +345,18 @@ class CC20192Listener(ParseTreeListener):
 
     # Exit a parse tree produced by CC20192Parser#atribexpress.
     def exitAtribexpress(self, ctx:CC20192Parser.AtribexpressContext):
-        pass
+        atribexpress = ctx
+
+        if type(ctx.children[0]) == CC20192Parser.ExpressionContext:
+            expression = ctx.children[0]
+            # GCI
+            atribexpress.code = expression.code
+            atribexpress.register = expression.register
+        elif type(ctx.children[0]) == CC20192Parser.AllocexpressionContext:
+            allocexpression = ctx.children[0]
+            # GCI
+            atribexpress.code = ""
+            atribexpress.register = self.newRegister()
 
 
     # Enter a parse tree produced by CC20192Parser#funccal.
@@ -395,12 +417,25 @@ class CC20192Listener(ParseTreeListener):
             blockstatement.loopScope = ifstat.loopScope
             elsestat.scope = ifstat.scope
             elsestat.loopScope = ifstat.loopScope
+            # GCI
+            blockstatement.next = ifstat.next
+            elsestat.next = ifstat.next
 
 
     # Exit a parse tree produced by CC20192Parser#ifstat.
     def exitIfstat(self, ctx:CC20192Parser.IfstatContext):
-        pass
+        ifstat = ctx
 
+        if len(ctx.children) == 6:
+            If, openpar = ctx.children[0], ctx.children[1]
+            expression, closepar = ctx.children[2], ctx.children[3]
+            blockstatement, elsestat = ctx.children[4], ctx.children[5]
+            # GCI
+            expression.true  = self.newLabel()
+            expression.false = self.newLabel()
+            ifstat.code = expression.code + expression.true + blockstatement.code + \
+                "go to " + ifstat.next + expression.false + elsestat.code + "go to " + ifstat.next
+            
 
     # Enter a parse tree produced by CC20192Parser#elsestat.
     def enterElsestat(self, ctx:CC20192Parser.ElsestatContext):
