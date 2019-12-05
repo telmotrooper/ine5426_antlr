@@ -1,0 +1,14 @@
+def teste_escopo() {
+  int x;
+  x = 5;
+  int i;
+  int y;
+  y = 2;
+  for (i = 0; i < x; i = i+1) {
+    if (i == 2) {
+      break;
+    }
+  }
+  break;
+  return;
+}
