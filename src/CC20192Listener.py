@@ -848,7 +848,11 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#lvalue.
     def enterLvalue(self, ctx:CC20192Parser.LvalueContext):
-        pass
+        lvalue, ident = ctx, ctx.children[0]
+        # GCI
+        lvalue.register = self.newRegister()
+        lvalue.code = lvalue.register + "=" + ident.getText()
+
 
     # Exit a parse tree produced by CC20192Parser#lvalue.
     def exitLvalue(self, ctx:CC20192Parser.LvalueContext):
