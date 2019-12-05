@@ -218,7 +218,7 @@ class CC20192Listener(ParseTreeListener):
         statement = ctx
 
         if ctx.children[0].getText() == "break":
-            statement.code = "go to " + statement.next()
+            statement.code = "go to " + statement.next
         elif type(ctx.children[0] == CC20192Parser.AtribstatContext):
             atribstat = ctx.children[0]
             # GCI
@@ -502,18 +502,27 @@ class CC20192Listener(ParseTreeListener):
     def enterStatelist(self, ctx:CC20192Parser.StatelistContext):
         statelist = ctx
 
-        if len(ctx.children) == 2:
+        if len(ctx.children) == 2:  # statelist → statement statelist1
             statement, statelist1 = ctx.children[0], ctx.children[1]
 
             statement.scope = statelist.scope
             statelist1.scope = statelist.scope
             statement.loopScope = statelist.loopScope
             statelist1.loopScope = statelist.loopScope
+            # GCI
+            statement.next = self.newLabel('STATELIST')
+            statelist1.next = statelist.next
 
 
     # Exit a parse tree produced by CC20192Parser#statelist.
     def exitStatelist(self, ctx:CC20192Parser.StatelistContext):
-        pass
+        statelist = ctx
+
+        if len(ctx.children) == 2:  # statelist → statement statelist1
+            statement, statelist1 = ctx.children[0], ctx.children[1]
+            # GCI
+            statelist.code = statement.code + statement.next + \
+                statelist1.code + "go to " + statelist.next
 
 
     # Enter a parse tree produced by CC20192Parser#statelist1.
@@ -522,11 +531,13 @@ class CC20192Listener(ParseTreeListener):
 
         if not ctx.children:
             pass
-        elif len(ctx.children) == 1:
+        elif len(ctx.children) == 1:  # statelist1 → statelist
             statelist = ctx.children[0]
 
             statelist.scope = statelist1.scope
             statelist.loopScope = statelist1.loopScope
+            # GCI
+            statelist.next = statelist1.next
 
 
     # Exit a parse tree produced by CC20192Parser#statelist1.
