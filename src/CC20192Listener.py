@@ -596,8 +596,6 @@ class CC20192Listener(ParseTreeListener):
     def enterExpression(self, ctx:CC20192Parser.ExpressionContext):
         expression = ctx  # expression → numexpression expression1
         numexpression, expression1 = ctx.children[0], ctx.children[1]
-        # GCI
-        expression1.beginRegister = numexpression.register
 
 
     # Exit a parse tree produced by CC20192Parser#expression.
@@ -667,6 +665,10 @@ class CC20192Listener(ParseTreeListener):
         # GCI
         numexpression.code = term.code + arithmetic1.code
         numexpression.register = arithmetic1.register
+        if type(ctx.parentCtx) == CC20192Parser.Expression1Context:
+            expression1 = ctx.parentCtx.children[1]
+            expression1.beginRegister = numexpression.register
+
 
     # Enter a parse tree produced by CC20192Parser#arithmetic1.
     def enterArithmetic1(self, ctx:CC20192Parser.Arithmetic1Context):
@@ -819,9 +821,10 @@ class CC20192Listener(ParseTreeListener):
     # Enter a parse tree produced by CC20192Parser#factor.
     def enterFactor(self, ctx:CC20192Parser.FactorContext):
         factor = ctx
-
+        # GCI
         factor.register = self.newRegister()
-        
+        # CC20192Parser.
+
 
     # Exit a parse tree produced by CC20192Parser#factor.
     def exitFactor(self, ctx:CC20192Parser.FactorContext):
