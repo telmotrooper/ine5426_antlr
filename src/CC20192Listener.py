@@ -10,8 +10,10 @@ else:
 
 # This class defines a complete listener for a parse tree produced by CC20192Parser.
 class CC20192Listener(ParseTreeListener):
+    # Counters
     scope = 0
     register = 0
+    label = 0
 
     def newScope(self):
         self.scope += 1
@@ -20,6 +22,10 @@ class CC20192Listener(ParseTreeListener):
     def newRegister(self):
         self.register += 1
         return "t" + self.register
+
+    def newLabel(self, name):
+        self.label += 1
+        return name + "_LABEL"+ self.label
 
     # Enter a parse tree produced by CC20192Parser#program.
     def enterProgram(self, ctx:CC20192Parser.ProgramContext):
@@ -117,10 +123,19 @@ class CC20192Listener(ParseTreeListener):
         statelist.loopScope = False
         paramlist.scope = funcdef.scope
 
+        # GCI
+        funcdef.start = self.newLabel('FUNCDEF')
+
 
     # Exit a parse tree produced by CC20192Parser#funcdef.
     def exitFuncdef(self, ctx:CC20192Parser.FuncdefContext):
-        pass
+        funcdef, Def, ident   = ctx, ctx.children[0], ctx.children[1]
+        openpar, paramlist    = ctx.children[2], ctx.children[3]
+        closepar, openbrace   = ctx.children[4], ctx.children[5]
+        statelist, closebrace = ctx.children[6], ctx.children[7]
+        
+        # GCI
+        funcdef.code = funcdef.start + statelist.code
 
 
     # Enter a parse tree produced by CC20192Parser#paramlist.
@@ -160,9 +175,13 @@ class CC20192Listener(ParseTreeListener):
                 entry = getEntryWithError('break', statement.scope)
                 print(f"ERROR: Invalid break (line {entry[1]}, column {entry[2]})")
                 sys.exit()
+
         elif type(ctx.children[0]) == CC20192Parser.VardeclContext:
             vardecl, semicolon = ctx.children[0], ctx.children[1]
             vardecl.scope = statement.scope
+            # GCI
+            statement.code = ""
+
         elif type(ctx.children[0] == CC20192Parser.IfstatContext):
             ifstat = ctx.children[0]
             ifstat.scope = self.newScope()
@@ -178,13 +197,28 @@ class CC20192Listener(ParseTreeListener):
             blockstatement.scope = self.newScope()
             blockstatement.loopScope = statement.loopScope
 
+        elif type(ctx.children[0] == CC20192Parser.PrintstatContext):
+            printstat = ctx.children[0]
+            # GCI
+            statement.code = ""
+
+        elif type(ctx.children[0] == CC20192Parser.ReadstatContext):
+            readstat = ctx.children[0]
+            # GCI
+            statement.code = ""
+
         elif ctx.children[0].getText() == ";":
             pass
 
 
     # Exit a parse tree produced by CC20192Parser#statement.
     def exitStatement(self, ctx:CC20192Parser.StatementContext):
-        pass
+        statement = ctx
+
+        if type(ctx.children[0] == CC20192Parser.AtribstatContext):
+            atribstat = ctx.children[0]
+            # GCI
+            statement.code = atribstat.code
 
 
     # Enter a parse tree produced by CC20192Parser#blockstatement.
