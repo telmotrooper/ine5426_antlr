@@ -142,6 +142,8 @@ class CC20192Listener(ParseTreeListener):
             Break.valid = statement.loopScope
             if not Break.valid:
                 raise Exception("Invalid break")
+        elif type(ctx.children[0] == CC20192Parser.SEMICOLON):
+            pass
 
 
     # Exit a parse tree produced by CC20192Parser#statement.
@@ -151,7 +153,13 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#blockstatement.
     def enterBlockstatement(self, ctx:CC20192Parser.BlockstatementContext):
-        pass
+        blockstatement = ctx
+        if len(ctx.children) == 3:  # blockstatement → OPENBRACE statelist CLOSEBRACE
+            openbrace, statelist = ctx.children[0], ctx.children[1]
+            closebrace = ctx.children[2]
+
+            statelist.scope = blockstatement.scope
+            statelist.loopScope = blockstatement.loopScope
 
     # Exit a parse tree produced by CC20192Parser#blockstatement.
     def exitBlockstatement(self, ctx:CC20192Parser.BlockstatementContext):
@@ -164,6 +172,10 @@ class CC20192Listener(ParseTreeListener):
         ident, brackets = ctx.children[1], ctx.children[2]
 
         vardecl.name = ident.getText()
+        setScope(ident.getText(), vardecl.scope)
+
+        if checkForScopeError(ident.getText(), vardecl.scope):
+            raise Exception("Out of scope")
 
     # Exit a parse tree produced by CC20192Parser#vardecl.
     def exitVardecl(self, ctx:CC20192Parser.VardeclContext):
@@ -281,7 +293,18 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#ifstat.
     def enterIfstat(self, ctx:CC20192Parser.IfstatContext):
-        pass
+        ifstat = ctx
+
+        if len(ctx.children) == 6:
+            If, openpar = ctx.children[0], ctx.children[1]
+            expression, closepar = ctx.children[2], ctx.children[3]
+            blockstatement, elsestat = ctx.children[4], ctx.children[5]
+
+            blockstatement.scope = ifstat.scope
+            blockstatement.loopScope = ifstat.loopScope
+            elsestat.scope = ifstat.scope
+            elsestat.loopScope = ifstat.loopScope
+
 
     # Exit a parse tree produced by CC20192Parser#ifstat.
     def exitIfstat(self, ctx:CC20192Parser.IfstatContext):
