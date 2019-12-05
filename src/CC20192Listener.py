@@ -180,7 +180,7 @@ class CC20192Listener(ParseTreeListener):
 
         if checkForScopeError(ident.getText(), vardecl.scope):
             entry = getEntryWithError(ident.getText(), vardecl.scope)
-            print(f"ERROR: Out of scope (line {entry[1]}, column {entry[2]})")
+            print(f"ERROR: Name collision in scope (line {entry[1]}, column {entry[2]})")
             sys.exit()
 
     # Exit a parse tree produced by CC20192Parser#vardecl.
