@@ -1,7 +1,7 @@
 # Generated from CC20192.g4 by ANTLR 4.7.2
 import sys
 from src.invertNumOrder import invertNumOrder
-from database import setScope, checkForScopeError
+from database import setScope, checkForScopeError, getEntryWithError
 from antlr4 import *
 if __name__ is not None and "." in __name__:
     from .CC20192Parser import CC20192Parser
@@ -177,7 +177,8 @@ class CC20192Listener(ParseTreeListener):
         setScope(ident.getText(), vardecl.scope)
 
         if checkForScopeError(ident.getText(), vardecl.scope):
-            print("ERROR: Out of scope")
+            entry = getEntryWithError(ident.getText(), vardecl.scope)
+            print(f"ERROR: Out of scope (line {entry[1]}, column {entry[2]})")
             sys.exit()
 
     # Exit a parse tree produced by CC20192Parser#vardecl.

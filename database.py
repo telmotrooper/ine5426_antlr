@@ -21,3 +21,8 @@ def checkForScopeError(lexeme, scope):
   if c.fetchone()[0] > 1:
     return True
   return False
+
+def getEntryWithError(lexeme, scope):
+  c = conn.cursor()
+  c.execute(f'''SELECT * FROM symbols WHERE lexeme = '{lexeme}' AND scope = {scope} ORDER BY id DESC LIMIT 1''')
+  return c.fetchone()
