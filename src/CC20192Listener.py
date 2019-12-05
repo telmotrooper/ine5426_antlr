@@ -470,7 +470,9 @@ class CC20192Listener(ParseTreeListener):
     def exitElsestat(self, ctx:CC20192Parser.ElsestatContext):
         elsestat = ctx
 
-        if len(ctx.children) == 2:
+        if not ctx.children:
+            pass
+        elif len(ctx.children) == 2:
             Else, blockstatement = ctx.children[0], ctx.children[1]
             # GCI
             elsestat.code = blockstatement.code + elsestat.next
