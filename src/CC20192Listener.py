@@ -506,7 +506,7 @@ class CC20192Listener(ParseTreeListener):
             atribstat2, closepar = ctx.children[6], ctx.children[7]
             statement = ctx.children[8]
             # GCI
-            forstat.code = atribstat.code + forstat.code + expression.code + expression.true + \
+            forstat.code = atribstat.code + forstat.begin + expression.code + expression.true + \
                 statement.code + atribstat.code + "go to " + forstat.begin
 
 
