@@ -599,11 +599,23 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#expression1.
     def enterExpression1(self, ctx:CC20192Parser.Expression1Context):
-        pass
+        expression1 = ctx
+        # GCI
+        if not ctx.children:  # expression1 → ε
+            expression1.register = expression1.beginRegister
+        else:                 # expression1 → signal numexpression
+            expression1.register = self.newRegister()
 
     # Exit a parse tree produced by CC20192Parser#expression1.
     def exitExpression1(self, ctx:CC20192Parser.Expression1Context):
-        pass
+        expression1 = ctx
+        signal, numexpression = ctx.children[0], ctx.children[1]
+        # GCI
+        if not ctx.children:  # expression1 → ε
+            pass
+        else:                 # expression1 → signal numexpression
+            expression1.code = numexpression.code + expression1.register + "=" + \
+                expression1.beginRegister + signal.symbol + numexpression.register
 
 
     # Enter a parse tree produced by CC20192Parser#signal.
