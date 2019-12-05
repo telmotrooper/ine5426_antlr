@@ -713,9 +713,9 @@ class CC20192Listener(ParseTreeListener):
     def enterTerm(self, ctx:CC20192Parser.TermContext):
         term = ctx
         unaryexpr, arithmetic2 = ctx.children[0], ctx.children[1]
-        
         # GCI
         term.register = self.newRegister()
+        arithmetic2.register = term.register
 
         if type(ctx.parentCtx) == CC20192Parser.NumexpressionContext:
             arithmetic1 = ctx.parentCtx.children[1]
@@ -723,8 +723,10 @@ class CC20192Listener(ParseTreeListener):
 
     # Exit a parse tree produced by CC20192Parser#term.
     def exitTerm(self, ctx:CC20192Parser.TermContext):
-        pass
-
+        term = ctx
+        unaryexpr, arithmetic2 = ctx.children[0], ctx.children[1]
+        # GCI
+        term.code = unaryexpr.code + arithmetic2.code
 
     # Enter a parse tree produced by CC20192Parser#arithmetic2.
     def enterArithmetic2(self, ctx:CC20192Parser.Arithmetic2Context):
@@ -746,7 +748,15 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#unaryexpr.
     def enterUnaryexpr(self, ctx:CC20192Parser.UnaryexprContext):
-        pass
+        unaryexpr = ctx
+        arithsignal3, factor = ctx.children[0], ctx.children[1]
+        # GCI
+        unaryexpr.register = self.newRegister()
+
+        if type(ctx.parentCtx) == CC20192Parser.TermContext:
+            arithmetic2 = ctx.parentCtx.children[1]
+            arithmetic2.beginRegister = unaryexpr.register
+
 
     # Exit a parse tree produced by CC20192Parser#unaryexpr.
     def exitUnaryexpr(self, ctx:CC20192Parser.UnaryexprContext):
