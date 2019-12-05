@@ -21,11 +21,11 @@ class CC20192Listener(ParseTreeListener):
     
     def newRegister(self):
         self.register += 1
-        return "t" + self.register
+        return "t" + str(self.register)
 
     def newLabel(self, name):
         self.label += 1
-        return name + "_LABEL"+ self.label
+        return name + "_LABEL" + str(self.label)
 
     # Enter a parse tree produced by CC20192Parser#program.
     def enterProgram(self, ctx:CC20192Parser.ProgramContext):
@@ -529,8 +529,9 @@ class CC20192Listener(ParseTreeListener):
     def enterStatelist1(self, ctx:CC20192Parser.Statelist1Context):
         statelist1 = ctx
 
-        if not ctx.children:
-            pass
+        if not ctx.children:          # statelist1 → ε
+            # GCI
+            statelist1.code = ""
         elif len(ctx.children) == 1:  # statelist1 → statelist
             statelist = ctx.children[0]
 
@@ -542,7 +543,14 @@ class CC20192Listener(ParseTreeListener):
 
     # Exit a parse tree produced by CC20192Parser#statelist1.
     def exitStatelist1(self, ctx:CC20192Parser.Statelist1Context):
-        pass
+        statelist1 = ctx
+
+        if not ctx.children:
+            pass
+        elif len(ctx.children) == 1:  # statelist1 → statelist
+            statelist = ctx.children[0]
+            # GCI
+            statelist1.code = statelist.code + statelist1.next
 
 
     # Enter a parse tree produced by CC20192Parser#allocexpression.
@@ -574,11 +582,19 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#expression.
     def enterExpression(self, ctx:CC20192Parser.ExpressionContext):
-        pass
+        expression = ctx  # expression → numexpression expression1
+        numexpression, expression1 = ctx.children[0], ctx.children[1]
+        # GCI
+        expression1.beginRegister = numexpression.register
+
 
     # Exit a parse tree produced by CC20192Parser#expression.
     def exitExpression(self, ctx:CC20192Parser.ExpressionContext):
-        pass
+        expression = ctx  # expression → numexpression expression1
+        numexpression, expression1 = ctx.children[0], ctx.children[1]
+        # GCI
+        expression.code = numexpression.code + expression1.code
+        expression.register = expression1.register
 
 
     # Enter a parse tree produced by CC20192Parser#expression1.
