@@ -739,6 +739,7 @@ class CC20192Listener(ParseTreeListener):
 
         if not ctx.children:
             arithmetic2.code = ""
+            arithmetic2.register = arithmetic2.beginRegister
         else:
             arithsignal2, unaryexpr = ctx.children[0], ctx.children[1]
             arithmetic2Child = ctx.children[2]
