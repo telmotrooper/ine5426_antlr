@@ -186,6 +186,8 @@ class CC20192Listener(ParseTreeListener):
             ifstat = ctx.children[0]
             ifstat.scope = self.newScope()
             ifstat.loopScope = statement.loopScope
+            # GCI
+            ifstat.next = statement.next
 
         elif type(ctx.children[0] == CC20192Parser.ForstatContext):
             forstat = ctx.children[0]
@@ -206,7 +208,6 @@ class CC20192Listener(ParseTreeListener):
             readstat = ctx.children[0]
             # GCI
             statement.code = ""
-
         elif ctx.children[0].getText() == ";":
             pass
 
@@ -215,10 +216,28 @@ class CC20192Listener(ParseTreeListener):
     def exitStatement(self, ctx:CC20192Parser.StatementContext):
         statement = ctx
 
-        if type(ctx.children[0] == CC20192Parser.AtribstatContext):
+        if ctx.children[0].getText() == "break":
+            statement.code = "go to " + statement.next()
+        elif type(ctx.children[0] == CC20192Parser.AtribstatContext):
             atribstat = ctx.children[0]
             # GCI
             statement.code = atribstat.code
+        elif type(ctx.children[0] == CC20192Parser.ReturnstatContext):
+            returnstat = ctx.children[0]
+            # GCI
+            statement.code = "go to " + statement.next
+        elif type(ctx.children[0] == CC20192Parser.IfstatContext):
+            ifstat = ctx.children[0]
+            # GCI
+            statement.code = ifstat.code
+        elif type(ctx.children[0] == CC20192Parser.ForstatContext):
+            forstat = ctx.children[0]
+            # GCI
+            statement.code = forstat.code
+        elif type(ctx.children[0] == CC20192Parser.BlockstatementContext):
+            blockstatement = ctx.children[0]
+            # GCI
+            statement.code = blockstatement.code
 
 
     # Enter a parse tree produced by CC20192Parser#blockstatement.
