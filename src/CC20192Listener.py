@@ -103,10 +103,12 @@ class CC20192Listener(ParseTreeListener):
             # IDENT.Scope = paramlist.Scope
             setScope(ident.getText(), paramlist.scope)
 
-        elif len(ctx.children) == 2:  # paramlist → vartype IDENT
-            pass
+            paramlistChild.scope = paramlist.scope
 
-        
+        elif len(ctx.children) == 2:  # paramlist → vartype IDENT
+            vartype, ident = ctx.children[0], ctx.children[1]
+            setScope(ident.getText(), paramlist.scope)
+
 
     # Exit a parse tree produced by CC20192Parser#paramlist.
     def exitParamlist(self, ctx:CC20192Parser.ParamlistContext):
@@ -115,7 +117,32 @@ class CC20192Listener(ParseTreeListener):
 
     # Enter a parse tree produced by CC20192Parser#statement.
     def enterStatement(self, ctx:CC20192Parser.StatementContext):
-        pass
+        statement = ctx
+
+        if type(ctx.children[0]) == CC20192Parser.VardeclContext:
+            vardecl, semicolon = ctx.children[0], ctx.children[1]
+            vardecl.scope = statement.scope
+        elif type(ctx.children[0] == CC20192Parser.IfstatContext):
+            ifstat = ctx.children[0]
+            ifstat.scope = self.newScope()
+            ifstat.loopScope = statement.loopScope
+
+        elif type(ctx.children[0] == CC20192Parser.ForstatContext):
+            forstat = ctx.children[0]
+            forstat.scope = self.newScope()
+            forstat.loopScope = True
+
+        elif type(ctx.children[0] == CC20192Parser.BlockstatementContext):
+            blockstatement = ctx.children[0]
+            blockstatement.scope = self.newScope()
+            blockstatement.loopScope = statement.loopScope
+
+        elif type(ctx.children[0] == CC20192Parser.BREAK):
+            Break = ctx.children[0]
+            Break.valid = statement.loopScope
+            if not Break.valid:
+                raise Exception("Invalid break")
+
 
     # Exit a parse tree produced by CC20192Parser#statement.
     def exitStatement(self, ctx:CC20192Parser.StatementContext):
