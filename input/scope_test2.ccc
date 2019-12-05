@@ -1,6 +1,4 @@
 def a( int c, string j ) {
-
     int a;
     string a;
-
 }
