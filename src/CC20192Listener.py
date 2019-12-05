@@ -104,6 +104,7 @@ class CC20192Listener(ParseTreeListener):
         funclist1, funclist = ctx, ctx.children[0]
         # GCI
         funclist.next = funclist1.next
+        funclist.scope = funclist1.scope
         
 
     # Exit a parse tree produced by CC20192Parser#funclist1.
