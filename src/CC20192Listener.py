@@ -48,7 +48,7 @@ class CC20192Listener(ParseTreeListener):
         funclist, funcdef = ctx, ctx.children[0]
         funclist1 = ctx.children[1]
 
-        funcdef.scope = funclist.scope
+        funcdef.scope = self.newScope()
         funclist1.scope = funclist.scope
 
 
@@ -67,7 +67,7 @@ class CC20192Listener(ParseTreeListener):
         funclist1 = ctx
 
         if not ctx.children:  # funclist1 → ε  
-            pass
+            funclist1.loopScope = False
         if(ctx.children):     # funclist1 → funclist
             funclist = ctx.children[0]
             funclist1.loopScope = funclist.loopScope
