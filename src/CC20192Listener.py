@@ -26,7 +26,7 @@ class CC20192Listener(ParseTreeListener):
 
     def newLabel(self, name):
         self.label += 1
-        return name + "_LABEL" + str(self.label)
+        return name + "_LABEL" + str(self.label) + ":"
 
     # Enter a parse tree produced by CC20192Parser#program.
     def enterProgram(self, ctx:CC20192Parser.ProgramContext):
@@ -40,7 +40,7 @@ class CC20192Listener(ParseTreeListener):
     def exitProgram(self, ctx:CC20192Parser.ProgramContext):
         program, statement1 = ctx, ctx.children[0]
         # GCI
-        program.code = statement1.code + "\nSTOP"
+        program.code = statement1.code + "\nSTOP:"
         print("Código intermediário:\n" + program.code)
 
 
@@ -572,7 +572,7 @@ class CC20192Listener(ParseTreeListener):
         elif len(ctx.children) == 1:  # statelist1 → statelist
             statelist = ctx.children[0]
             # GCI
-            statelist1.code = statelist.code + "\n" + statelist1.next
+            statelist1.code = statelist.code
 
 
     # Enter a parse tree produced by CC20192Parser#allocexpression.
@@ -766,7 +766,7 @@ class CC20192Listener(ParseTreeListener):
             arithsignal2, unaryexpr = ctx.children[0], ctx.children[1]
             arithmetic2Child = ctx.children[2]
             # GCI
-            arithmetic2.code = unaryexpr.code + arithmetic2Child.code + arithmetic2.register + " = " + \
+            arithmetic2.code = unaryexpr.code + "\n" + arithmetic2Child.code + "\n" + arithmetic2.register + " = " + \
                 arithmetic2.beginRegister + arithsignal2.symbol + unaryexpr.register
 
 
@@ -807,7 +807,7 @@ class CC20192Listener(ParseTreeListener):
         arithsignal3, factor = ctx.children[0], ctx.children[1]
         # GCI
         unaryexpr.code = factor.code + "\n" + unaryexpr.register + " = " + \
-            "0" + arithsignal3.symbol + factor.register
+            "0 " + arithsignal3.symbol + " " + factor.register
 
 
     # Enter a parse tree produced by CC20192Parser#arithsignal3.
@@ -855,7 +855,7 @@ class CC20192Listener(ParseTreeListener):
             factor.code = lvalue.code + "\n" + factor.register + " = " + lvalue.register
         elif ctx.children[0].getText() == "(":
             expression = ctx.children[1]
-            factor.code = expression.code + "\n" + factor.register + "=" + expression.register
+            factor.code = expression.code + "\n" + factor.register + " = " + expression.register
 
 
     # Enter a parse tree produced by CC20192Parser#lvalue.
