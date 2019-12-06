@@ -34,7 +34,6 @@ def cohen_sutherland_point(float xs, float ys, float xe, float ye, float xws, fl
 	}
 	int flag;
 	flag = 0;
-	int i;
 	for(i = 0; i < 4; i = i+1) {
 		if(rc1[i] != rcw[i]) {
 			flag = 1;
