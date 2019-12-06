@@ -96,7 +96,7 @@ class CC20192Listener(ParseTreeListener):
         funclist, funcdef, funclist1 = ctx, ctx.children[0], ctx.children[1]
         funclist.loopScope = funclist1.loopScope
         # GCI
-        funclist.code = funcdef.start + funcdef.code + funclist1.code
+        funclist.code = funcdef.start + "\n" + funcdef.code + "\n" + funclist1.code
 
 
     # Enter a parse tree produced by CC20192Parser#funclist1.
@@ -151,7 +151,7 @@ class CC20192Listener(ParseTreeListener):
         statelist, closebrace = ctx.children[6], ctx.children[7]
         
         # GCI
-        funcdef.code = funcdef.start + statelist.code
+        funcdef.code = funcdef.start + "\n" + statelist.code
 
 
     # Enter a parse tree produced by CC20192Parser#paramlist.
@@ -356,7 +356,7 @@ class CC20192Listener(ParseTreeListener):
         atribexpress = ctx.children[2]
 
         # GCI
-        atribstat.code = atribexpress.code + lvalue.register + "=" + atribexpress.register
+        atribstat.code = atribexpress.code + "\n" + lvalue.register + "=" + atribexpress.register
 
 
     # Enter a parse tree produced by CC20192Parser#atribexpress.
@@ -453,8 +453,8 @@ class CC20192Listener(ParseTreeListener):
             # GCI
             expression.true  = self.newLabel('IFSTAT')
             expression.false = self.newLabel('IFSTAT')
-            ifstat.code = expression.code + expression.true + blockstatement.code + \
-                "go to " + ifstat.next + expression.false + elsestat.code + "go to " + ifstat.next
+            ifstat.code = expression.code + "\n" + expression.true + "\n" + blockstatement.code + "\n" + \
+                "go to " + ifstat.next + "\n" + expression.false + "\n" + elsestat.code + "\n" + "go to " + ifstat.next
             
 
     # Enter a parse tree produced by CC20192Parser#elsestat.
@@ -482,7 +482,7 @@ class CC20192Listener(ParseTreeListener):
         elif len(ctx.children) == 2:
             Else, blockstatement = ctx.children[0], ctx.children[1]
             # GCI
-            elsestat.code = blockstatement.code + elsestat.next
+            elsestat.code = blockstatement.code + "\n" + elsestat.next
 
 
     # Enter a parse tree produced by CC20192Parser#forstat.
@@ -515,8 +515,8 @@ class CC20192Listener(ParseTreeListener):
             atribstat2, closepar = ctx.children[6], ctx.children[7]
             statement = ctx.children[8]
             # GCI
-            forstat.code = atribstat.code + forstat.begin + expression.code + expression.true + \
-                statement.code + atribstat.code + "go to " + forstat.begin
+            forstat.code = atribstat.code + "\n" + forstat.begin + "\n" + expression.code + "\n" + expression.true + \
+                "\n" + statement.code + "\n" + atribstat.code + "\n" + "go to " + forstat.begin
 
 
 
@@ -543,8 +543,8 @@ class CC20192Listener(ParseTreeListener):
         if len(ctx.children) == 2:  # statelist → statement statelist1
             statement, statelist1 = ctx.children[0], ctx.children[1]
             # GCI
-            statelist.code = statement.code + statement.next + \
-                statelist1.code + "go to " + statelist.next
+            statelist.code = statement.code + "\n" + statement.next + "\n" + \
+                statelist1.code + "\n" + "go to " + statelist.next
 
 
     # Enter a parse tree produced by CC20192Parser#statelist1.
@@ -572,7 +572,7 @@ class CC20192Listener(ParseTreeListener):
         elif len(ctx.children) == 1:  # statelist1 → statelist
             statelist = ctx.children[0]
             # GCI
-            statelist1.code = statelist.code + statelist1.next
+            statelist1.code = statelist.code + "\n" + statelist1.next
 
 
     # Enter a parse tree produced by CC20192Parser#allocexpression.
@@ -613,7 +613,7 @@ class CC20192Listener(ParseTreeListener):
         expression = ctx  # expression → numexpression expression1
         numexpression, expression1 = ctx.children[0], ctx.children[1]
         # GCI
-        expression.code = numexpression.code + expression1.code
+        expression.code = numexpression.code + "\n" + expression1.code
         expression.register = expression1.register
 
 
@@ -636,7 +636,7 @@ class CC20192Listener(ParseTreeListener):
         else:                 # expression1 → signal numexpression
             signal, numexpression = ctx.children[0], ctx.children[1]
 
-            expression1.code = numexpression.code + expression1.register + "=" + \
+            expression1.code = numexpression.code + "\n" + expression1.register + "=" + \
                 expression1.beginRegister + signal.symbol + numexpression.register
 
 
@@ -706,7 +706,7 @@ class CC20192Listener(ParseTreeListener):
             arithsignal1, term = ctx.children[0], ctx.children[1]
             arithmetic1Child = ctx.children[2]
             # GCI
-            arithmetic1.code = term.code + arithmetic1Child.code + arithmetic1.register + \
+            arithmetic1.code = term.code + "\n" + arithmetic1Child.code + "\n" + arithmetic1.register + \
                 "=" + arithmetic1.beginRegister + arithsignal1.symbol + term.register
 
     # Enter a parse tree produced by CC20192Parser#arithsignal1.
