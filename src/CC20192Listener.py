@@ -19,7 +19,7 @@ class CC20192Listener(ParseTreeListener):
     def newScope(self):
         self.scope += 1
         return self.scope
-    
+
     def newRegister(self):
         self.register += 1
         return "t" + str(self.register)
@@ -96,7 +96,7 @@ class CC20192Listener(ParseTreeListener):
         funclist, funcdef, funclist1 = ctx, ctx.children[0], ctx.children[1]
         funclist.loopScope = funclist1.loopScope
         # GCI
-        funclist.code = funcdef.start + "\n" + funcdef.code + "\n" + funclist1.code
+        funclist.code = funcdef.code + "\n" + funclist1.code
 
 
     # Enter a parse tree produced by CC20192Parser#funclist1.
@@ -110,13 +110,13 @@ class CC20192Listener(ParseTreeListener):
             # GCI
             funclist.next = funclist1.next
             funclist.scope = funclist1.scope
-        
+
 
     # Exit a parse tree produced by CC20192Parser#funclist1.
     def exitFunclist1(self, ctx:CC20192Parser.Funclist1Context):
         funclist1 = ctx
 
-        if not ctx.children:  # funclist1 → ε  
+        if not ctx.children:  # funclist1 → ε
             funclist1.loopScope = False
             # GCI
             funclist1.code = ""
@@ -149,7 +149,7 @@ class CC20192Listener(ParseTreeListener):
         openpar, paramlist    = ctx.children[2], ctx.children[3]
         closepar, openbrace   = ctx.children[4], ctx.children[5]
         statelist, closebrace = ctx.children[6], ctx.children[7]
-        
+
         # GCI
         funcdef.code = funcdef.start + "\n" + statelist.code
 
@@ -301,7 +301,7 @@ class CC20192Listener(ParseTreeListener):
 
         if hasattr(brackets, 'type'):
             vardecl.type = invertNumOrder(brackets.type)
-        
+
         # Print them for testing
         # if hasattr(vardecl, 'type'):
         #     print("vardecl.name = " + vardecl.name)
@@ -356,7 +356,7 @@ class CC20192Listener(ParseTreeListener):
         atribexpress = ctx.children[2]
 
         # GCI
-        atribstat.code = atribexpress.code + "\n" + lvalue.register + "=" + atribexpress.register
+        atribstat.code = atribexpress.code + "\n" + lvalue.register + " = " + atribexpress.register
 
 
     # Enter a parse tree produced by CC20192Parser#atribexpress.
@@ -455,7 +455,7 @@ class CC20192Listener(ParseTreeListener):
             expression.false = self.newLabel('IFSTAT')
             ifstat.code = expression.code + "\n" + expression.true + "\n" + blockstatement.code + "\n" + \
                 "go to " + ifstat.next + "\n" + expression.false + "\n" + elsestat.code + "\n" + "go to " + ifstat.next
-            
+
 
     # Enter a parse tree produced by CC20192Parser#elsestat.
     def enterElsestat(self, ctx:CC20192Parser.ElsestatContext):
@@ -466,7 +466,7 @@ class CC20192Listener(ParseTreeListener):
             elsestat.code = ""
         elif len(ctx.children) == 2:
             Else, blockstatement = ctx.children[0], ctx.children[1]
-            
+
             blockstatement.scope = elsestat.scope
             blockstatement.loopScope = elsestat.loopScope
             # GCI
@@ -636,7 +636,7 @@ class CC20192Listener(ParseTreeListener):
         else:                 # expression1 → signal numexpression
             signal, numexpression = ctx.children[0], ctx.children[1]
 
-            expression1.code = numexpression.code + "\n" + expression1.register + "=" + \
+            expression1.code = numexpression.code + "\n" + expression1.register + " = " + \
                 expression1.beginRegister + signal.symbol + numexpression.register
 
 
@@ -644,18 +644,18 @@ class CC20192Listener(ParseTreeListener):
     def enterSignal(self, ctx:CC20192Parser.SignalContext):
         signal = ctx
         if ctx.children[0].getText() == "<":
-            signal.symbol = "<"
+            signal.symbol = " < "
         elif ctx.children[0].getText() == ">":
-            signal.symbol = ">"
+            signal.symbol = " > "
         elif ctx.children[0].getText() == "<=":
-            signal.symbol = "<="
+            signal.symbol = " <= "
         elif ctx.children[0].getText() == ">=":
-            signal.symbol = ">="
+            signal.symbol = " >= "
         elif ctx.children[0].getText() == "==":
-            signal.symbol = "=="
+            signal.symbol = " == "
         elif ctx.children[0].getText() == "!=":
-            signal.symbol = "!="
-        
+            signal.symbol = " != "
+
 
     # Exit a parse tree produced by CC20192Parser#signal.
     def exitSignal(self, ctx:CC20192Parser.SignalContext):
@@ -685,7 +685,7 @@ class CC20192Listener(ParseTreeListener):
     # Enter a parse tree produced by CC20192Parser#arithmetic1.
     def enterArithmetic1(self, ctx:CC20192Parser.Arithmetic1Context):
         arithmetic1 = ctx
-        
+
         if not ctx.children:  # arithmetic1 → ε
             arithmetic1.code = ""
             arithmetic1.register = arithmetic1.beginRegister
@@ -699,7 +699,7 @@ class CC20192Listener(ParseTreeListener):
     # Exit a parse tree produced by CC20192Parser#arithmetic1.
     def exitArithmetic1(self, ctx:CC20192Parser.Arithmetic1Context):
         arithmetic1 = ctx
-        
+
         if not ctx.children:  # arithmetic1 → ε
             pass
         else:                 # arithmetic1 → arithsignal1 term arithmetic1¹
@@ -707,16 +707,16 @@ class CC20192Listener(ParseTreeListener):
             arithmetic1Child = ctx.children[2]
             # GCI
             arithmetic1.code = term.code + "\n" + arithmetic1Child.code + "\n" + arithmetic1.register + \
-                "=" + arithmetic1.beginRegister + arithsignal1.symbol + term.register
+                " = " + arithmetic1.beginRegister + arithsignal1.symbol + term.register
 
     # Enter a parse tree produced by CC20192Parser#arithsignal1.
     def enterArithsignal1(self, ctx:CC20192Parser.Arithsignal1Context):
         arithsignal1 = ctx
 
         if ctx.children[0].getText() == "+":
-            arithsignal1.symbol = "+"
+            arithsignal1.symbol = " + "
         elif ctx.children[0].getText() == "-":
-            arithsignal1.symbol = "-"
+            arithsignal1.symbol = " - "
 
     # Exit a parse tree produced by CC20192Parser#arithsignal1.
     def exitArithsignal1(self, ctx:CC20192Parser.Arithsignal1Context):
@@ -740,7 +740,7 @@ class CC20192Listener(ParseTreeListener):
         term = ctx
         unaryexpr, arithmetic2 = ctx.children[0], ctx.children[1]
         # GCI
-        term.code = unaryexpr.code + arithmetic2.code
+        term.code = unaryexpr.code + "\n" + arithmetic2.code
 
     # Enter a parse tree produced by CC20192Parser#arithmetic2.
     def enterArithmetic2(self, ctx:CC20192Parser.Arithmetic2Context):
@@ -766,7 +766,7 @@ class CC20192Listener(ParseTreeListener):
             arithsignal2, unaryexpr = ctx.children[0], ctx.children[1]
             arithmetic2Child = ctx.children[2]
             # GCI
-            arithmetic2.code = unaryexpr.code + arithmetic2Child.code + arithmetic2.register + "=" + \
+            arithmetic2.code = unaryexpr.code + arithmetic2Child.code + arithmetic2.register + " = " + \
                 arithmetic2.beginRegister + arithsignal2.symbol + unaryexpr.register
 
 
@@ -776,12 +776,12 @@ class CC20192Listener(ParseTreeListener):
         arithsignal2 = ctx
         # GCI
         if ctx.children[0].getText() == "*":
-            arithsignal2.symbol = "*"
+            arithsignal2.symbol = " * "
         elif ctx.children[0].getText() == "\\":
-            arithsignal2.symbol = "\\"
+            arithsignal2.symbol = " \\ "
         elif ctx.children[0].getText() == "%":
-            arithsignal2.symbol = "%"
-        
+            arithsignal2.symbol = " % "
+
 
 
     # Exit a parse tree produced by CC20192Parser#arithsignal2.
@@ -806,7 +806,7 @@ class CC20192Listener(ParseTreeListener):
         unaryexpr = ctx
         arithsignal3, factor = ctx.children[0], ctx.children[1]
         # GCI
-        unaryexpr.code = factor.code + unaryexpr.register + "=" + \
+        unaryexpr.code = factor.code + "\n" + unaryexpr.register + " = " + \
             "0" + arithsignal3.symbol + factor.register
 
 
@@ -838,11 +838,11 @@ class CC20192Listener(ParseTreeListener):
         factor.register = self.newRegister()
 
         if ctx.children[0].getText() == "null":
-            factor.code = factor.register + "=" + "0"
+            factor.code = factor.register + " = " + "0"
         elif ctx.children[0].getText() == "(":
             pass
         elif type(ctx.children[0]) == antlr4.tree.Tree.TerminalNodeImpl: # int, float, string
-            factor.code = factor.register + "=" + ctx.children[0].getText()
+            factor.code = factor.register + " = " + ctx.children[0].getText()
 
 
     # Exit a parse tree produced by CC20192Parser#factor.
@@ -852,10 +852,10 @@ class CC20192Listener(ParseTreeListener):
         # if
         if type(ctx.children[0]) == CC20192Parser.LvalueContext:
             lvalue = ctx.children[0]
-            factor.code = lvalue.code + factor.register + "=" + lvalue.register
+            factor.code = lvalue.code + "\n" + factor.register + " = " + lvalue.register
         elif ctx.children[0].getText() == "(":
             expression = ctx.children[1]
-            factor.code = expression.code + factor.register + "=" + expression.register
+            factor.code = expression.code + "\n" + factor.register + "=" + expression.register
 
 
     # Enter a parse tree produced by CC20192Parser#lvalue.
@@ -863,11 +863,9 @@ class CC20192Listener(ParseTreeListener):
         lvalue, ident = ctx, ctx.children[0]
         # GCI
         lvalue.register = self.newRegister()
-        lvalue.code = lvalue.register + "=" + ident.getText()
+        lvalue.code = lvalue.register + " = " + ident.getText()
 
 
     # Exit a parse tree produced by CC20192Parser#lvalue.
     def exitLvalue(self, ctx:CC20192Parser.LvalueContext):
         pass
-
-
