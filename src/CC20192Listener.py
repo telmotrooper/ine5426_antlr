@@ -26,7 +26,7 @@ class CC20192Listener(ParseTreeListener):
 
     def newLabel(self, name):
         self.label += 1
-        return name + "_LABEL" + str(self.label) + ":"
+        return name + "_LABEL" + str(self.label)
 
     # Enter a parse tree produced by CC20192Parser#program.
     def enterProgram(self, ctx:CC20192Parser.ProgramContext):
@@ -453,8 +453,8 @@ class CC20192Listener(ParseTreeListener):
             # GCI
             expression.true  = self.newLabel('IFSTAT')
             expression.false = self.newLabel('IFSTAT')
-            ifstat.code = expression.code + "\n" + expression.true + "\n" + blockstatement.code + "\n" + \
-                "go to " + ifstat.next + "\n" + expression.false + "\n" + elsestat.code + "\n" + "go to " + ifstat.next
+            ifstat.code = expression.code + "\n" + expression.true + ":\n" + blockstatement.code + "\n" + \
+                "go to " + ifstat.next + ":\n" + expression.false + ":\n" + elsestat.code + "\n" + "go to " + ifstat.next
 
 
     # Enter a parse tree produced by CC20192Parser#elsestat.
@@ -482,7 +482,7 @@ class CC20192Listener(ParseTreeListener):
         elif len(ctx.children) == 2:
             Else, blockstatement = ctx.children[0], ctx.children[1]
             # GCI
-            elsestat.code = blockstatement.code + "\n" + elsestat.next
+            elsestat.code = blockstatement.code + "\n" + elsestat.next + ":"
 
 
     # Enter a parse tree produced by CC20192Parser#forstat.
@@ -515,8 +515,8 @@ class CC20192Listener(ParseTreeListener):
             atribstat2, closepar = ctx.children[6], ctx.children[7]
             statement = ctx.children[8]
             # GCI
-            forstat.code = atribstat.code + "\n" + forstat.begin + "\n" + expression.code + "\n" + expression.true + \
-                "\n" + statement.code + "\n" + atribstat.code + "\n" + "go to " + forstat.begin
+            forstat.code = atribstat.code + "\n" + forstat.begin + ":\n" + expression.code + "\n" + expression.true + \
+                ":\n" + statement.code + "\n" + atribstat.code + "\n" + "go to " + forstat.begin
 
 
 
@@ -543,7 +543,7 @@ class CC20192Listener(ParseTreeListener):
         if len(ctx.children) == 2:  # statelist → statement statelist1
             statement, statelist1 = ctx.children[0], ctx.children[1]
             # GCI
-            statelist.code = statement.code + "\n" + statement.next + "\n" + \
+            statelist.code = statement.code + "\n" + statement.next + ":\n" + \
                 statelist1.code + "\n" + "go to " + statelist.next
 
 
